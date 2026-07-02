@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeliverySwap AI – Intelligent Delivery Management System</title>
+<meta name="description" content="AI-Powered Dynamic Delivery Partner Reassignment System for e-commerce logistics">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --pri: #2563eb; --pri-l: #3b82f6; --pri-d: #1d4ed8;
+  --acc: #f97316; --acc-l: #fb923c;
+  --ok: #10b981; --warn: #f59e0b; --err: #ef4444;
+  --info: #06b6d4; --pur: #8b5cf6; --pink: #ec4899;
+  --bg1: #060b18; --bg2: #0d1425; --bg3: #111827;
+  --card: rgba(255,255,255,0.04); --card-h: rgba(255,255,255,0.07);
+  --bdr: rgba(255,255,255,0.09); --bdr2: rgba(255,255,255,0.15);
+  --t1: #f1f5f9; --t2: #94a3b8; --t3: #475569;
+  --sb: #0a0f1e; --glass: rgba(255,255,255,0.05);
+  --sh: 0 8px 32px rgba(0,0,0,0.4);
+  --gp: 0 0 20px rgba(37,99,235,0.25);
+  --ga: 0 0 20px rgba(249,115,22,0.25);
+  --tr: .3s ease;
+}
+[data-theme="light"] {
+  --bg1: #f0f4ff; --bg2: #e8eeff; --bg3: #dde5ff;
+  --card: rgba(255,255,255,0.75); --card-h: rgba(255,255,255,0.95);
+  --bdr: rgba(0,0,0,0.08); --bdr2: rgba(0,0,0,0.15);
+  --t1: #0f172a; --t2: #334155; --t3: #64748b;
+  --sb: #dce5ff; --glass: rgba(255,255,255,0.6);
+  --sh: 0 8px 32px rgba(37,99,235,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg1);color:var(--t1);overflow-x:hidden;transition:background var(--tr),color var(--tr);}
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--pri);border-radius:3px;}
+/* ─── LOGIN PAGE ─── */
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg1);position:relative;overflow:hidden;}
+#loginPage::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);top:-100px;left:-100px;animation:blob1 8s ease-in-out infinite;}
+#loginPage::after{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(249,115,22,.12) 0%,transparent 70%);bottom:-80px;right:-80px;animation:blob1 10s ease-in-out infinite reverse;}
+@keyframes blob1{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-20px) scale(1.05);}66%{transform:translate(-20px,30px) scale(.95);}}
+.login-wrap{position:relative;z-index:10;width:100%;max-width:440px;padding:1.5rem;}
+.login-brand{text-align:center;margin-bottom:2rem;}
+.login-brand .logo-icon{width:68px;height:68px;background:linear-gradient(135deg,var(--pri),var(--acc));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1rem;box-shadow:var(--gp),var(--ga);animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.login-brand h1{font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--pri-l),var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.login-brand p{color:var(--t2);font-size:.875rem;margin-top:.35rem;}
+.login-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid var(--bdr2);border-radius:24px;padding:2.5rem;box-shadow:var(--sh);}
+.login-card h2{font-size:1.35rem;font-weight:700;margin-bottom:.3rem;}
+.login-card .sub{color:var(--t2);font-size:.85rem;margin-bottom:2rem;}
+.form-group{margin-bottom:1.25rem;}
+.form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--t2);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.05em;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:.85rem 1.1rem;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:12px;color:var(--t1);font-size:.9rem;font-family:'Inter',sans-serif;transition:all var(--tr);outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--pri);background:rgba(37,99,235,0.08);box-shadow:0 0 0 3px rgba(37,99,235,0.15);}
+.form-group textarea{resize:vertical;min-height:110px;}
+.form-group select option{background:var(--bg2);color:var(--t1);}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;border-radius:12px;border:none;font-size:.9rem;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:all var(--tr);text-decoration:none;}
+.btn-primary{background:linear-gradient(135deg,var(--pri),var(--pri-l));color:#fff;box-shadow:var(--gp);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,.4);}
+.btn-acc{background:linear-gradient(135deg,var(--acc),var(--acc-l));color:#fff;box-shadow:var(--ga);}
+.btn-acc:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(249,115,22,.4);}
+.btn-ok{background:linear-gradient(135deg,var(--ok),#34d399);color:#fff;}
+.btn-ok:hover{transform:translateY(-2px);}
+.btn-sm{padding:.5rem 1rem;font-size:.78rem;}
+.btn-outline{background:transparent;border:1px solid var(--bdr2);color:var(--t1);}
+.btn-outline:hover{background:var(--card-h);border-color:var(--pri);}
+.btn-full{width:100%;justify-content:center;}
+.badge{display:inline-flex;align-items:center;padding:.25rem .6rem;border-radius:50px;font-size:.72rem;font-weight:600;}
+.badge-ok{background:rgba(16,185,129,.15);color:var(--ok);}
+.badge-err{background:rgba(239,68,68,.15);color:var(--err);}
+.badge-warn{background:rgba(245,158,11,.15);color:var(--warn);}
+.badge-info{background:rgba(6,182,212,.15);color:var(--info);}
+.badge-pur{background:rgba(139,92,246,.15);color:var(--pur);}
+.badge-pri{background:rgba(37,99,235,.15);color:var(--pri-l);}
+#loginError{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--err);padding:.75rem 1rem;border-radius:10px;font-size:.82rem;margin-bottom:1rem;display:none;}
+.demo-creds{margin-top:1.5rem;padding:1rem;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:12px;font-size:.8rem;color:var(--t2);text-align:center;}
+.demo-creds strong{color:var(--pri-l);}
+.shake{animation:shake .5s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+/* ─── THANK YOU PAGE ─── */
+#thankYouPage{display:none;align-items:center;justify-content:center;min-height:100vh;background:var(--bg1);flex-direction:column;text-align:center;gap:1.5rem;position:relative;overflow:hidden;}
+#thankYouPage::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(37,99,235,.15) 0%,transparent 70%);}
+.ty-icon{font-size:5rem;animation:pulse-ty 2s ease-in-out infinite;}
+@keyframes pulse-ty{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}};
+.ty-title{font-family:'Outfit',sans-serif;font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--pri-l),var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;}
+.ty-sub{color:var(--t2);font-size:1.1rem;position:relative;}
+.ty-timer{color:var(--t3);font-size:.875rem;position:relative;}
+.progress-ring{width:60px;height:60px;position:relative;}
+.progress-ring circle{fill:none;stroke-width:4;stroke-linecap:round;}
+.progress-ring .bg-ring{stroke:var(--bdr);}
+.progress-ring .fg-ring{stroke:var(--pri);stroke-dasharray:163;stroke-dashoffset:163;transition:stroke-dashoffset linear 1s;transform-origin:center;transform:rotate(-90deg);}
+/* ─── MAIN APP ─── */
+#mainApp{display:none;min-height:100vh;background:var(--bg1);}
+.app-layout{display:flex;min-height:100vh;}
+/* ─── SIDEBAR ─── */
+#sidebar{width:260px;background:var(--sb);border-right:1px solid var(--bdr);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;transition:transform var(--tr);overflow-y:auto;padding-bottom:1rem;}
+.sb-brand{padding:1.5rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:.85rem;}
+.sb-logo{width:42px;height:42px;background:linear-gradient(135deg,var(--pri),var(--acc));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;box-shadow:var(--gp);}
+.sb-brand-text h2{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:800;background:linear-gradient(135deg,var(--pri-l),var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;}
+.sb-brand-text span{font-size:.68rem;color:var(--t3);font-weight:500;}
+.sb-section{padding:.75rem 1rem .25rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.7rem 1.25rem;margin:1px .5rem;border-radius:12px;cursor:pointer;transition:all var(--tr);color:var(--t2);font-size:.855rem;font-weight:500;position:relative;}
+.nav-item:hover{background:var(--card-h);color:var(--t1);}
+.nav-item.active{background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(249,115,22,.1));color:var(--t1);border:1px solid rgba(37,99,235,.3);}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:linear-gradient(var(--pri),var(--acc));border-radius:0 3px 3px 0;}
+.nav-icon{font-size:1.05rem;width:22px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--err);color:#fff;font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:50px;min-width:18px;text-align:center;}
+.sb-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid var(--bdr);}
+.sb-user{display:flex;align-items:center;gap:.75rem;}
+.sb-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--pri),var(--acc));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0;}
+.sb-user-info{flex:1;}
+.sb-user-info strong{display:block;font-size:.82rem;}
+.sb-user-info span{font-size:.7rem;color:var(--t3);}
+/* ─── MAIN CONTENT ─── */
+#mainContent{margin-left:260px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+/* ─── TOPBAR ─── */
+#topBar{position:sticky;top:0;z-index:100;background:rgba(6,11,24,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;}
+[data-theme="light"] #topBar{background:rgba(240,244,255,0.85);}
+.tb-menu-btn{display:none;background:none;border:none;color:var(--t1);font-size:1.3rem;cursor:pointer;}
+.tb-title{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:700;flex:1;}
+.tb-actions{display:flex;align-items:center;gap:.75rem;}
+.tb-btn{width:40px;height:40px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr);color:var(--t1);font-size:1rem;position:relative;}
+.tb-btn:hover{background:var(--card-h);border-color:var(--pri);}
+.tb-notif-badge{position:absolute;top:-4px;right:-4px;background:var(--err);color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .3rem;border-radius:50px;min-width:16px;text-align:center;}
+.tb-user{display:flex;align-items:center;gap:.6rem;padding:.4rem .85rem .4rem .4rem;background:var(--card);border:1px solid var(--bdr);border-radius:10px;cursor:pointer;transition:all var(--tr);}
+.tb-user:hover{background:var(--card-h);}
+.tb-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--pri),var(--acc));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;}
+#loggedUserName{font-size:.82rem;font-weight:600;}
+/* ─── PAGE SECTIONS ─── */
+#sectionsContainer{flex:1;padding:2rem;max-width:1400px;width:100%;margin:0 auto;}
+.section{display:none;animation:fadeIn .4s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.page-header{margin-bottom:2rem;}
+.page-header h1{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;margin-bottom:.4rem;}
+.page-header p{color:var(--t2);font-size:.9rem;}
+.grad-text{background:linear-gradient(135deg,var(--pri-l),var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+/* ─── CARDS ─── */
+.card{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--bdr);border-radius:20px;padding:1.5rem;transition:all var(--tr);}
+.card:hover{background:var(--card-h);border-color:var(--bdr2);box-shadow:var(--sh);}
+.card-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:1rem;}
+/* ─── STATS GRID ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:2rem;}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:1.5rem;transition:all var(--tr);position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.1;}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--sh);background:var(--card-h);}
+.stat-icon{font-size:1.75rem;margin-bottom:.75rem;display:block;}
+.stat-val{font-family:'Outfit',sans-serif;font-size:2rem;font-weight:800;line-height:1;}
+.stat-lbl{color:var(--t2);font-size:.8rem;margin-top:.35rem;font-weight:500;}
+.stat-chg{display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;font-weight:600;margin-top:.5rem;}
+.stat-chg.up{color:var(--ok);}
+.stat-chg.dn{color:var(--err);}
+.sc-blue::before{background:var(--pri);}
+.sc-orange::before{background:var(--acc);}
+.sc-green::before{background:var(--ok);}
+.sc-purple::before{background:var(--pur);}
+.sc-cyan::before{background:var(--info);}
+.sc-pink::before{background:var(--pink);}
+/* ─── GRID LAYOUTS ─── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;}
+/* ─── CHART CONTAINERS ─── */
+.chart-box{background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:1.5rem;}
+.chart-box canvas{max-height:280px;}
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--bdr);}
+table{width:100%;border-collapse:collapse;font-size:.85rem;}
+thead{background:rgba(37,99,235,.1);}
+th{padding:.85rem 1.1rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);}
+td{padding:.85rem 1.1rem;border-top:1px solid var(--bdr);color:var(--t2);}
+tr:hover td{background:var(--card-h);color:var(--t1);}
+/* ─── PROGRESS BAR ─── */
+.progress-bar{height:8px;background:var(--bdr);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;transition:width .8s ease;}
+.pf-blue{background:linear-gradient(90deg,var(--pri),var(--pri-l));}
+.pf-green{background:linear-gradient(90deg,var(--ok),#34d399);}
+.pf-orange{background:linear-gradient(90deg,var(--acc),var(--acc-l));}
+.pf-purple{background:linear-gradient(90deg,var(--pur),#a78bfa);}
+.pf-red{background:linear-gradient(90deg,var(--err),#f87171);}
+.pf-cyan{background:linear-gradient(90deg,var(--info),#22d3ee);}
+/* ─── MAP ─── */
+.map-wrap{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--bdr);}
+#mapCanvas{display:block;width:100%;background:#0d1117;}
+.map-legend{display:flex;flex-wrap:wrap;gap:1rem;padding:1rem 1.5rem;background:var(--card);border-top:1px solid var(--bdr);}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--t2);}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+/* ─── TIMELINE ─── */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:1rem;position:relative;padding-bottom:1.5rem;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item:not(:last-child)::after{content:'';position:absolute;left:17px;top:36px;width:2px;bottom:0;background:var(--bdr);}
+.tl-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;border:2px solid var(--bdr);}
+.tl-dot.ok{background:rgba(16,185,129,.15);border-color:var(--ok);}
+.tl-dot.active{background:rgba(37,99,235,.15);border-color:var(--pri);animation:ping-dot 2s ease-in-out infinite;}
+.tl-dot.pend{background:var(--card);border-color:var(--bdr2);}
+@keyframes ping-dot{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.4);}50%{box-shadow:0 0 0 8px rgba(37,99,235,0);}}
+.tl-content{flex:1;padding-top:.3rem;}
+.tl-title{font-size:.87rem;font-weight:600;}
+.tl-time{font-size:.75rem;color:var(--t3);margin-top:.2rem;}
+/* ─── NOTIFICATIONS ─── */
+.notif-item{display:flex;gap:1rem;padding:1.1rem 1.25rem;border-radius:14px;background:var(--card);border:1px solid var(--bdr);margin-bottom:.75rem;transition:all var(--tr);align-items:flex-start;}
+.notif-item:hover{background:var(--card-h);}
+.notif-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ni-ok{background:rgba(16,185,129,.15);}
+.ni-warn{background:rgba(245,158,11,.15);}
+.ni-err{background:rgba(239,68,68,.15);}
+.ni-info{background:rgba(6,182,212,.15);}
+.ni-pri{background:rgba(37,99,235,.15);}
+.notif-body{flex:1;}
+.notif-title{font-size:.87rem;font-weight:600;margin-bottom:.25rem;}
+.notif-msg{font-size:.8rem;color:var(--t2);}
+.notif-time{font-size:.72rem;color:var(--t3);margin-top:.3rem;}
+.notif-dismiss{background:none;border:none;color:var(--t3);cursor:pointer;font-size:1rem;padding:.25rem;transition:color var(--tr);}
+.notif-dismiss:hover{color:var(--err);}
+/* ─── SWAP ENGINE ─── */
+.swap-candidate{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:1.25rem;transition:all var(--tr);}
+.swap-candidate:hover{background:var(--card-h);}
+.swap-candidate.winner{border-color:var(--ok);background:rgba(16,185,129,.08);}
+.swap-score-bar{height:10px;border-radius:5px;background:var(--bdr);margin:.5rem 0;}
+.swap-score-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--ok),#34d399);transition:width 1.2s ease;}
+/* ─── TECH CARDS ─── */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;}
+.tech-card{background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:1.75rem;text-align:center;transition:all var(--tr);cursor:default;}
+.tech-card:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:var(--bdr2);}
+.tech-icon{font-size:2.75rem;margin-bottom:1rem;display:block;}
+.tech-name{font-weight:700;font-size:.9rem;margin-bottom:.4rem;}
+.tech-desc{font-size:.75rem;color:var(--t2);}
+/* ─── ABOUT ─── */
+.about-hero{background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(249,115,22,.08));border:1px solid var(--bdr);border-radius:24px;padding:3rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden;}
+.about-hero::before{content:'🚀';position:absolute;font-size:8rem;opacity:.06;right:-1rem;bottom:-1rem;}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem;}
+.feature-card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:1.5rem;transition:all var(--tr);}
+.feature-card:hover{transform:translateY(-3px);box-shadow:var(--sh);}
+.feature-icon{font-size:2rem;margin-bottom:.75rem;display:block;}
+/* ─── CONTACT ─── */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.contact-info{display:flex;flex-direction:column;gap:1.25rem;}
+.contact-info-item{display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--card);border:1px solid var(--bdr);border-radius:16px;}
+.ci-icon{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--pri),var(--acc));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.ci-label{font-size:.72rem;color:var(--t3);font-weight:600;text-transform:uppercase;}
+.ci-val{font-size:.9rem;font-weight:600;margin-top:.2rem;}
+/* ─── ANIMATIONS ─── */
+.pulse{animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.spin{animation:spin 1s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.glow-text{text-shadow:0 0 20px rgba(37,99,235,.5);}
+/* ─── AI RESULT PANEL ─── */
+.ai-result{background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(249,115,22,.08));border:1px solid rgba(37,99,235,.25);border-radius:18px;padding:1.75rem;margin-top:1.5rem;}
+.ai-result-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;}
+.ai-badge{background:linear-gradient(135deg,var(--pri),var(--acc));color:#fff;padding:.35rem .85rem;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:.05em;}
+/* ─── SLIDER ─── */
+input[type="range"]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--bdr);outline:none;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--pri);cursor:pointer;box-shadow:var(--gp);}
+/* ─── ADMIN ─── */
+.admin-tabs{display:flex;gap:.5rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.admin-tab{padding:.6rem 1.25rem;border-radius:10px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all var(--tr);background:var(--card);border:1px solid var(--bdr);color:var(--t2);}
+.admin-tab.active{background:linear-gradient(135deg,var(--pri),var(--pri-l));color:#fff;border-color:var(--pri);box-shadow:var(--gp);}
+.admin-panel{display:none;}
+.admin-panel.active{display:block;animation:fadeIn .3s ease;}
+/* ─── FOOTER ─── */
+.app-footer{text-align:center;padding:1.5rem 2rem;border-top:1px solid var(--bdr);color:var(--t3);font-size:.8rem;margin-top:auto;}
+/* ─── OVERLAY ─── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;backdrop-filter:blur(4px);}
+.overlay.show{display:block;}
+/* ─── REASSIGNMENT ─── */
+.reassign-box{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:center;margin:1.5rem 0;}
+.reassign-partner{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:1.5rem;text-align:center;transition:all .5s ease;}
+.reassign-partner.highlight{border-color:var(--ok);background:rgba(16,185,129,.08);transform:scale(1.02);}
+.reassign-arrow{text-align:center;font-size:2rem;}
+.rating-stars{color:var(--warn);font-size:.85rem;}
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){.grid-3{grid-template-columns:1fr 1fr;}.grid-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:900px){
+  #sidebar{transform:translateX(-100%);}
+  #sidebar.open{transform:translateX(0);}
+  #mainContent{margin-left:0;}
+  .tb-menu-btn{display:flex;}
+  .grid-2{grid-template-columns:1fr;}
+  .grid-3{grid-template-columns:1fr;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .reassign-box{grid-template-columns:1fr;}.reassign-arrow{transform:rotate(90deg);}
+}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr;}.grid-4{grid-template-columns:1fr 1fr;}.tb-actions{gap:.4rem;}}
+@media(max-width:420px){.stats-grid{grid-template-columns:1fr;}.grid-4{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<!-- ╔══════════════════════════════════════════════════╗
+     ║               LOGIN PAGE                        ║
+     ╚══════════════════════════════════════════════════╝ -->
+<div id="loginPage">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="logo-icon">🚀</div>
+      <h1>DeliverySwap AI</h1>
+      <p>AI-Powered Dynamic Delivery Partner Reassignment</p>
+    </div>
+    <div class="login-card">
+      <h2>Welcome Back 👋</h2>
+      <p class="sub">Sign in to access the intelligent delivery dashboard</p>
+      <div id="loginError"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')handleLogin()">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="handleLogin()">🔐 Sign In to Dashboard</button>
+      <div class="demo-creds">
+        <div>Demo: <strong>admin</strong> / <strong>admin123</strong></div>
+        <div style="margin-top:.3rem">Or: <strong>user</strong> / <strong>user123</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ╔══════════════════════════════════════════════════╗
+     ║              THANK YOU PAGE                     ║
+     ╚══════════════════════════════════════════════════╝ -->
+<div id="thankYouPage">
+  <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+    <div class="ty-icon">🎉</div>
+    <h1 class="ty-title">Thank You!</h1>
+    <p class="ty-sub">You have been successfully logged out of DeliverySwap AI</p>
+    <p style="color:var(--t2);font-size:.9rem;text-align:center;max-width:400px;">Thank you for using our AI-Powered Delivery Management System. Your session has been securely closed.</p>
+    <svg class="progress-ring" viewBox="0 0 60 60">
+      <circle class="bg-ring" cx="30" cy="30" r="26" />
+      <circle class="fg-ring" id="tyProgressRing" cx="30" cy="30" r="26" />
+    </svg>
+    <p class="ty-timer" id="tyTimer">Redirecting to login in 5 seconds...</p>
+    <button class="btn btn-primary" onclick="goToLogin()">🔑 Login Again</button>
+  </div>
+</div>
+<!-- ╔══════════════════════════════════════════════════╗
+     ║                MAIN APP                         ║
+     ╚══════════════════════════════════════════════════╝ -->
+<div id="mainApp">
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">🚀</div>
+        <div class="sb-brand-text">
+          <h2>DeliverySwap AI</h2>
+          <span>Intelligent Logistics</span>
+        </div>
+      </div>
+      <div class="sb-section">Main</div>
+      <div class="nav-item active" data-section="home" onclick="showSection('home')"><span class="nav-icon">🏠</span>Home Dashboard</div>
+      <div class="nav-item" data-section="ai-dashboard" onclick="showSection('ai-dashboard')"><span class="nav-icon">🤖</span>AI Dashboard</div>
+      <div class="sb-section">Operations</div>
+      <div class="nav-item" data-section="reassignment" onclick="showSection('reassignment')"><span class="nav-icon">🔄</span>Reassignment Module</div>
+      <div class="nav-item" data-section="delay-prediction" onclick="showSection('delay-prediction')"><span class="nav-icon">⚡</span>Delay Prediction</div>
+      <div class="nav-item" data-section="swap-engine" onclick="showSection('swap-engine')"><span class="nav-icon">🧠</span>Smart Swap Engine</div>
+      <div class="nav-item" data-section="live-tracking" onclick="showSection('live-tracking')"><span class="nav-icon">🗺️</span>Live Tracking</div>
+      <div class="sb-section">Dashboards</div>
+      <div class="nav-item" data-section="partner-dashboard" onclick="showSection('partner-dashboard')"><span class="nav-icon">👷</span>Partner Dashboard</div>
+      <div class="nav-item" data-section="customer-dashboard" onclick="showSection('customer-dashboard')"><span class="nav-icon">📦</span>Customer Dashboard</div>
+      <div class="nav-item" data-section="analytics" onclick="showSection('analytics')"><span class="nav-icon">📊</span>Analytics</div>
+      <div class="sb-section">System</div>
+      <div class="nav-item" data-section="notifications" onclick="showSection('notifications')"><span class="nav-icon">🔔</span>Notifications<span class="nav-badge" id="sbNotifBadge">0</span></div>
+      <div class="nav-item" data-section="admin" onclick="showSection('admin')"><span class="nav-icon">⚙️</span>Admin Panel</div>
+      <div class="sb-section">Info</div>
+      <div class="nav-item" data-section="technologies" onclick="showSection('technologies')"><span class="nav-icon">💻</span>Technologies</div>
+      <div class="nav-item" data-section="about" onclick="showSection('about')"><span class="nav-icon">ℹ️</span>About Project</div>
+      <div class="nav-item" data-section="contact" onclick="showSection('contact')"><span class="nav-icon">📧</span>Contact</div>
+      <div class="sb-footer">
+        <div class="sb-user">
+          <div class="sb-avatar" id="sbAvatar">A</div>
+          <div class="sb-user-info">
+            <strong id="sbUserName">Admin User</strong>
+            <span>Online</span>
+          </div>
+          <button class="btn btn-sm btn-outline" onclick="handleLogout()" title="Logout" style="padding:.4rem .7rem;border-radius:8px;">🚪</button>
+        </div>
+      </div>
+    </aside>
+    <!-- OVERLAY for mobile -->
+    <div class="overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+    <!-- MAIN CONTENT -->
+    <div id="mainContent">
+      <!-- TOPBAR -->
+      <header id="topBar">
+        <button class="tb-menu-btn" onclick="openSidebar()">☰</button>
+        <div class="tb-title" id="topBarTitle">🏠 Home Dashboard</div>
+        <div class="tb-actions">
+          <div class="tb-btn" onclick="showSection('notifications')" title="Notifications">
+            🔔<span class="tb-notif-badge" id="topNotifBadge">0</span>
+          </div>
+          <div class="tb-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle Theme">🌙</div>
+          <div class="tb-user" onclick="showSection('admin')">
+            <div class="tb-avatar">A</div>
+            <span id="loggedUserName">Admin User</span>
+          </div>
+          <button class="btn btn-sm" style="background:linear-gradient(135deg,var(--err),#f87171);color:#fff;padding:.5rem .85rem;font-size:.78rem;" onclick="handleLogout()">🚪 Logout</button>
+        </div>
+      </header>
+      <!-- SECTIONS CONTAINER -->
+      <div id="sectionsContainer">
+        <!-- ══════════════════════════════ SECTION: HOME ══════════════════════════════ -->
+        <section id="sec-home" class="section active">
+          <div class="page-header">
+            <h1>Welcome to <span class="grad-text">DeliverySwap AI</span> 🚀</h1>
+            <p>AI-Powered Dynamic Delivery Partner Reassignment System — Real-time monitoring & intelligent logistics</p>
+          </div>
+          <!-- Live Stats -->
+          <div class="stats-grid">
+            <div class="stat-card sc-blue"><span class="stat-icon">📦</span><div class="stat-val" id="h-active">2,847</div><div class="stat-lbl">Active Orders</div><div class="stat-chg up">▲ 12% today</div></div>
+            <div class="stat-card sc-green"><span class="stat-icon">✅</span><div class="stat-val" id="h-success">94.7%</div><div class="stat-lbl">Delivery Success Rate</div><div class="stat-chg up">▲ 2.3%</div></div>
+            <div class="stat-card sc-orange"><span class="stat-icon">🤖</span><div class="stat-val" id="h-ai">98.2%</div><div class="stat-lbl">AI Prediction Accuracy</div><div class="stat-chg up">▲ 0.8%</div></div>
+            <div class="stat-card sc-purple"><span class="stat-icon">🔄</span><div class="stat-val" id="h-swaps">423</div><div class="stat-lbl">Smart Swaps Today</div><div class="stat-chg up">▲ 34 new</div></div>
+            <div class="stat-card sc-cyan"><span class="stat-icon">⏱️</span><div class="stat-val" id="h-eta">18.4m</div><div class="stat-lbl">Avg Delivery Time</div><div class="stat-chg up">▼ 3.2m saved</div></div>
+            <div class="stat-card sc-pink"><span class="stat-icon">👥</span><div class="stat-val" id="h-partners">1,284</div><div class="stat-lbl">Active Partners</div><div class="stat-chg up">▲ 48 online</div></div>
+          </div>
+          <!-- Recent Updates & Quick Actions -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">📋 Recent Delivery Updates</div>
+              <div id="recentUpdates"></div>
+            </div>
+            <div class="card">
+              <div class="card-title">🤖 AI Prediction Summary</div>
+              <div style="margin-bottom:1.25rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem;"><span>Traffic Delay Risk</span><strong style="color:var(--warn)">Medium — 34%</strong></div>
+                <div class="progress-bar"><div class="progress-fill pf-orange" style="width:34%"></div></div>
+              </div>
+              <div style="margin-bottom:1.25rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem;"><span>Weather Impact</span><strong style="color:var(--ok)">Low — 12%</strong></div>
+                <div class="progress-bar"><div class="progress-fill pf-green" style="width:12%"></div></div>
+              </div>
+              <div style="margin-bottom:1.25rem;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem;"><span>Partner Workload Stress</span><strong style="color:var(--err)">High — 68%</strong></div>
+                <div class="progress-bar"><div class="progress-fill pf-red" style="width:68%"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem;"><span>System Efficiency</span><strong style="color:var(--pri-l)">Excellent — 94%</strong></div>
+                <div class="progress-bar"><div class="progress-fill pf-blue" style="width:94%"></div></div>
+              </div>
+              <div style="margin-top:1.5rem;padding:1rem;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(249,115,22,.08));border-radius:12px;border:1px solid rgba(37,99,235,.2);">
+                <div style="font-size:.78rem;color:var(--t3);margin-bottom:.3rem;">AI RECOMMENDATION</div>
+                <div style="font-size:.87rem;">🧠 Recommend reassigning 12 delayed orders to available partners in Koramangala & HSR zones for optimal ETD.</div>
+              </div>
+            </div>
+          </div>
+          <!-- Live ticker -->
+          <div style="margin-top:1.5rem;background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(249,115,22,.05));border:1px solid var(--bdr);border-radius:16px;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;">
+            <span style="background:var(--err);color:#fff;font-size:.65rem;font-weight:700;padding:.2rem .6rem;border-radius:4px;flex-shrink:0;" class="pulse">LIVE</span>
+            <div style="overflow:hidden;flex:1;"><div id="liveTicker" style="font-size:.85rem;color:var(--t2);white-space:nowrap;"></div></div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: AI DASHBOARD ══════════════════════════════ -->
+        <section id="sec-ai-dashboard" class="section">
+          <div class="page-header"><h1>🤖 AI <span class="grad-text">Delivery Dashboard</span></h1><p>Real-time AI monitoring and delivery intelligence metrics</p></div>
+          <div class="stats-grid">
+            <div class="stat-card sc-blue"><span class="stat-icon">📦</span><div class="stat-val" id="ai-active">2,847</div><div class="stat-lbl">Active Orders</div></div>
+            <div class="stat-card sc-orange"><span class="stat-icon">⚠️</span><div class="stat-val" id="ai-delayed">156</div><div class="stat-lbl">Delayed Orders</div></div>
+            <div class="stat-card sc-green"><span class="stat-icon">👷</span><div class="stat-val" id="ai-partners">1,284</div><div class="stat-lbl">Delivery Partners</div></div>
+            <div class="stat-card sc-purple"><span class="stat-icon">🔄</span><div class="stat-val" id="ai-swapped">423</div><div class="stat-lbl">Orders Reassigned</div></div>
+            <div class="stat-card sc-cyan"><span class="stat-icon">⏱️</span><div class="stat-val">18.4m</div><div class="stat-lbl">Avg Delivery Time</div></div>
+            <div class="stat-card sc-pink"><span class="stat-icon">🎯</span><div class="stat-val" id="ai-success">94.7%</div><div class="stat-lbl">Success Rate</div></div>
+          </div>
+          <div class="grid-2">
+            <div class="chart-box"><div class="card-title">📈 Delivery Success Trend</div><canvas id="chartAILine"></canvas></div>
+            <div class="chart-box"><div class="card-title">🍩 Order Status Distribution</div><canvas id="chartAIDoughnut"></canvas></div>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <div class="chart-box"><div class="card-title">⚡ Hourly Swap Activity (Today)</div><canvas id="chartAIBar"></canvas></div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: REASSIGNMENT ══════════════════════════════ -->
+        <section id="sec-reassignment" class="section">
+          <div class="page-header"><h1>🔄 Dynamic Delivery <span class="grad-text">Reassignment</span></h1><p>Simulate AI-powered smart delivery partner reassignment in real-time</p></div>
+          <div class="card" style="margin-bottom:1.5rem;">
+            <div class="card-title">📦 Current Order Awaiting Reassignment</div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+              <div><span class="badge badge-err" style="font-size:.8rem;padding:.35rem .8rem;">⚠️ DELAYED</span></div>
+              <div><strong id="ra-orderId">ORD-2848</strong> — <span style="color:var(--t2);" id="ra-item">Samsung Galaxy S24</span></div>
+              <div style="margin-left:auto;display:flex;gap:.75rem;flex-wrap:wrap;">
+                <button class="btn btn-acc" onclick="runReassignSim()">🤖 Run AI Reassignment</button>
+                <button class="btn btn-outline" onclick="resetReassign()">↺ Reset</button>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;">
+              <div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3)">CUSTOMER</div><div style="font-weight:600;margin-top:.3rem;" id="ra-customer">Rahul Gupta</div></div>
+              <div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3)">DELAY REASON</div><div style="font-weight:600;margin-top:.3rem;color:var(--err);" id="ra-reason">Traffic Jam</div></div>
+              <div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3)">DELAY</div><div style="font-weight:600;margin-top:.3rem;color:var(--warn);" id="ra-delay">+22 min</div></div>
+              <div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3)">PRIORITY</div><div style="font-weight:600;margin-top:.3rem;"><span class="badge badge-err">High</span></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔄 Before vs After Reassignment</div>
+            <div class="reassign-box">
+              <div class="reassign-partner" id="raBefore">
+                <div style="font-size:2rem;margin-bottom:.75rem;">🚴</div>
+                <div style="font-weight:700;" id="ra-before-name">Priya Singh</div>
+                <div style="color:var(--t2);font-size:.8rem;margin:.35rem 0;" id="ra-before-id">DP002</div>
+                <div class="rating-stars">★★★★☆</div>
+                <div style="margin-top:.75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.75rem;">
+                  <div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Orders</div><strong id="ra-before-orders">2</strong></div>
+                  <div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">ETA</div><strong style="color:var(--err)">35m</strong></div>
+                </div>
+                <div style="margin-top:.75rem;"><span class="badge badge-err">⚠️ Delayed</span></div>
+              </div>
+              <div class="reassign-arrow">
+                <div style="font-size:.72rem;color:var(--t3);margin-bottom:.35rem;">AI SWAP</div>
+                <div>➡️</div>
+                <div id="ra-status-msg" style="font-size:.72rem;color:var(--t3);margin-top:.35rem;">Pending</div>
+              </div>
+              <div class="reassign-partner" id="raAfter" style="opacity:.4;">
+                <div style="font-size:2rem;margin-bottom:.75rem;">🏍️</div>
+                <div style="font-weight:700;" id="ra-after-name">Amit Sharma</div>
+                <div style="color:var(--t2);font-size:.8rem;margin:.35rem 0;" id="ra-after-id">DP003</div>
+                <div class="rating-stars">★★★★★</div>
+                <div style="margin-top:.75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.75rem;">
+                  <div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Orders</div><strong id="ra-after-orders">1</strong></div>
+                  <div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">ETA</div><strong style="color:var(--ok)" id="ra-after-eta">8m</strong></div>
+                </div>
+                <div style="margin-top:.75rem;" id="ra-after-badge"><span class="badge badge-warn">⏳ Standby</span></div>
+              </div>
+            </div>
+            <div id="ra-result-panel" style="display:none;" class="ai-result">
+              <div class="ai-result-header"><span class="ai-badge">🤖 AI DECISION</span><span style="color:var(--ok);font-weight:700;">Swap Successful ✓</span></div>
+              <p style="font-size:.87rem;color:var(--t2);margin-bottom:1rem;">The AI engine has analyzed all available delivery partners and determined that <strong style="color:var(--t1)">Amit Sharma (DP003)</strong> is the optimal choice based on proximity, workload, rating, and traffic conditions.</p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.75rem;font-size:.82rem;">
+                <div style="text-align:center;padding:.75rem;background:var(--card);border-radius:10px;"><div style="color:var(--t3);margin-bottom:.3rem;">Time Saved</div><strong style="color:var(--ok)">+27 min</strong></div>
+                <div style="text-align:center;padding:.75rem;background:var(--card);border-radius:10px;"><div style="color:var(--t3);margin-bottom:.3rem;">AI Score</div><strong style="color:var(--pri-l)">92/100</strong></div>
+                <div style="text-align:center;padding:.75rem;background:var(--card);border-radius:10px;"><div style="color:var(--t3);margin-bottom:.3rem;">Confidence</div><strong style="color:var(--warn)">96.4%</strong></div>
+                <div style="text-align:center;padding:.75rem;background:var(--card);border-radius:10px;"><div style="color:var(--t3);margin-bottom:.3rem;">New ETA</div><strong style="color:var(--ok)">8 min</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: DELAY PREDICTION ══════════════════════════════ -->
+        <section id="sec-delay-prediction" class="section">
+          <div class="page-header"><h1>⚡ AI Delay <span class="grad-text">Prediction Engine</span></h1><p>Predict delivery delays using AI analysis of real-time conditions</p></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">🔍 Input Delivery Conditions</div>
+              <div class="form-group"><label>Traffic Congestion</label><select id="dp-traffic"><option value="none">None</option><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="severe">Severe Jam</option></select></div>
+              <div class="form-group"><label>Weather Condition</label><select id="dp-weather"><option value="clear" selected>Clear ☀️</option><option value="cloudy">Cloudy ⛅</option><option value="rain">Rain 🌧️</option><option value="heavy-rain">Heavy Rain ⛈️</option><option value="storm">Storm 🌩️</option></select></div>
+              <div class="form-group"><label>Vehicle Status</label><select id="dp-vehicle"><option value="good" selected>Good Condition</option><option value="minor">Minor Issue</option><option value="breakdown">Breakdown ⚠️</option></select></div>
+              <div class="form-group"><label>Partner Workload</label><select id="dp-workload"><option value="low">Low (1-2 orders)</option><option value="medium" selected>Medium (3-4 orders)</option><option value="high">High (5+ orders)</option></select></div>
+              <div class="form-group"><label>Distance (km): <span id="dp-dist-val">8</span> km</label><input type="range" id="dp-distance" min="1" max="30" value="8" oninput="document.getElementById('dp-dist-val').textContent=this.value"></div>
+              <div class="form-group"><label>Peak Hour Traffic</label><select id="dp-peak"><option value="no" selected>No</option><option value="yes">Yes (Rush Hour)</option></select></div>
+              <div class="form-group"><label>Road Closures</label><select id="dp-road"><option value="none" selected>None</option><option value="partial">Partial</option><option value="full">Full Closure</option></select></div>
+              <button class="btn btn-primary btn-full" onclick="runDelayPrediction()" style="margin-top:.5rem;">🤖 Run AI Analysis</button>
+            </div>
+            <div class="card" id="dp-result-panel">
+              <div class="card-title">📊 AI Prediction Results</div>
+              <div id="dp-results">
+                <div style="text-align:center;padding:3rem 1rem;color:var(--t3);">
+                  <div style="font-size:3rem;margin-bottom:1rem;">🤖</div>
+                  <div>Fill in the conditions and click<br><strong style="color:var(--t1)">Run AI Analysis</strong> to see predictions</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: SMART SWAP ENGINE ══════════════════════════════ -->
+        <section id="sec-swap-engine" class="section">
+          <div class="page-header"><h1>🧠 Smart <span class="grad-text">Swap Engine</span></h1><p>AI-powered partner scoring and optimal swap recommendation</p></div>
+          <div class="card" style="margin-bottom:1.5rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+              <div><div class="card-title" style="margin-bottom:.25rem;">🔄 Generate AI Swap Analysis</div><div style="font-size:.85rem;color:var(--t2);">AI scores all available partners for order <strong style="color:var(--t1)">ORD-2848</strong></div></div>
+              <button class="btn btn-primary" onclick="runSwapEngine()">🧠 Analyze Partners</button>
+            </div>
+          </div>
+          <div id="swapResults">
+            <div style="text-align:center;padding:4rem;color:var(--t3);">
+              <div style="font-size:3rem;margin-bottom:1rem;">🧠</div>
+              <div>Click <strong style="color:var(--t1)">Analyze Partners</strong> to generate AI swap scores</div>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: LIVE TRACKING ══════════════════════════════ -->
+        <section id="sec-live-tracking" class="section">
+          <div class="page-header"><h1>🗺️ Live Delivery <span class="grad-text">Tracking</span></h1><p>Real-time delivery partner locations and order progress</p></div>
+          <div class="grid-2" style="margin-bottom:1.5rem;">
+            <div class="stat-card sc-green" style="margin:0;"><span class="stat-icon">🟢</span><div class="stat-val">6</div><div class="stat-lbl">Partners Online</div></div>
+            <div class="stat-card sc-blue" style="margin:0;"><span class="stat-icon">📦</span><div class="stat-val">12</div><div class="stat-lbl">Active Deliveries</div></div>
+          </div>
+          <div class="map-wrap" style="margin-bottom:1.5rem;">
+            <canvas id="mapCanvas" width="800" height="420"></canvas>
+            <div class="map-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>Active Partner</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div>Near Delivery</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div>Pickup Point</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div>Delivery Point</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6;"></div>Delayed</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">📋 Delivery Progress Timeline</div>
+              <div class="timeline">
+                <div class="tl-item"><div class="tl-dot ok">✓</div><div class="tl-content"><div class="tl-title">Order Placed & Confirmed</div><div class="tl-time">2:30 PM — ORD-2848</div></div></div>
+                <div class="tl-item"><div class="tl-dot ok">✓</div><div class="tl-content"><div class="tl-title">Partner Assigned — Priya Singh</div><div class="tl-time">2:32 PM — DP002</div></div></div>
+                <div class="tl-item"><div class="tl-dot ok">✓</div><div class="tl-content"><div class="tl-title">Picked up from Warehouse</div><div class="tl-time">2:45 PM — Koramangala Hub</div></div></div>
+                <div class="tl-item"><div class="tl-dot active">🤖</div><div class="tl-content"><div class="tl-title">AI Delay Detected — Partner Swapped</div><div class="tl-time">3:05 PM — Reassigned to Amit Sharma</div></div></div>
+                <div class="tl-item"><div class="tl-dot pend">○</div><div class="tl-content"><div class="tl-title" style="color:var(--t3)">Out for Delivery</div><div class="tl-time" style="color:var(--t3)">Expected 3:13 PM</div></div></div>
+                <div class="tl-item"><div class="tl-dot pend">○</div><div class="tl-content"><div class="tl-title" style="color:var(--t3)">Delivered to Customer</div><div class="tl-time" style="color:var(--t3)">Expected 3:18 PM</div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">📍 Partner Live Status</div>
+              <div id="partnerStatusList"></div>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: PARTNER DASHBOARD ══════════════════════════════ -->
+        <section id="sec-partner-dashboard" class="section">
+          <div class="page-header"><h1>👷 Delivery Partner <span class="grad-text">Dashboard</span></h1><p>Partner performance metrics and delivery statistics</p></div>
+          <div class="stats-grid">
+            <div class="stat-card sc-blue"><span class="stat-icon">📦</span><div class="stat-val">3</div><div class="stat-lbl">Assigned Today</div></div>
+            <div class="stat-card sc-green"><span class="stat-icon">✅</span><div class="stat-val">12</div><div class="stat-lbl">Completed Today</div></div>
+            <div class="stat-card sc-orange"><span class="stat-icon">⭐</span><div class="stat-val">4.9</div><div class="stat-lbl">Performance Score</div></div>
+            <div class="stat-card sc-purple"><span class="stat-icon">⏱️</span><div class="stat-val">16.2m</div><div class="stat-lbl">Avg Delivery Time</div></div>
+          </div>
+          <div class="grid-2" style="margin-bottom:1.5rem;">
+            <div class="chart-box"><div class="card-title">📊 Partner Performance Comparison</div><canvas id="chartPartnerBar"></canvas></div>
+            <div class="card">
+              <div class="card-title">🏆 Rewards & Achievements</div>
+              <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.1));border:1px solid rgba(245,158,11,.25);border-radius:14px;">
+                  <span style="font-size:2rem;">🥇</span><div><div style="font-weight:700;">Top Performer</div><div style="font-size:.8rem;color:var(--t2);">Highest deliveries this week</div></div><div style="margin-left:auto;font-weight:700;color:var(--warn)">+₹500</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(99,102,241,.1));border:1px solid rgba(139,92,246,.25);border-radius:14px;">
+                  <span style="font-size:2rem;">⚡</span><div><div style="font-weight:700;">Speed Demon</div><div style="font-size:.8rem;color:var(--t2);">Avg time under 18 minutes</div></div><div style="margin-left:auto;font-weight:700;color:var(--pur)">+₹300</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(52,211,153,.1));border:1px solid rgba(16,185,129,.25);border-radius:14px;">
+                  <span style="font-size:2rem;">⭐</span><div><div style="font-weight:700;">5-Star Rating</div><div style="font-size:.8rem;color:var(--t2);">10 consecutive 5-star reviews</div></div><div style="margin-left:auto;font-weight:700;color:var(--ok)">+₹200</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(34,211,238,.1));border:1px solid rgba(6,182,212,.25);border-radius:14px;">
+                  <span style="font-size:2rem;">💎</span><div><div style="font-weight:700;">Zero Complaints</div><div style="font-size:.8rem;color:var(--t2);">No complaints this month</div></div><div style="margin-left:auto;font-weight:700;color:var(--info)">+₹150</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">👥 All Delivery Partners</div>
+            <div class="table-wrap">
+              <table id="partnerTable">
+                <thead><tr><th>Partner ID</th><th>Name</th><th>Vehicle</th><th>Rating</th><th>Active Orders</th><th>Completed Today</th><th>Fuel/Battery</th><th>Status</th><th>Earnings</th></tr></thead>
+                <tbody id="partnerTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: CUSTOMER DASHBOARD ══════════════════════════════ -->
+        <section id="sec-customer-dashboard" class="section">
+          <div class="page-header"><h1>📦 Customer <span class="grad-text">Dashboard</span></h1><p>Real-time order tracking and delivery updates for customers</p></div>
+          <div class="grid-2" style="margin-bottom:1.5rem;">
+            <div class="card" style="background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(249,115,22,.08));border-color:rgba(37,99,235,.25);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                <div><div style="font-size:.72rem;color:var(--t3);font-weight:700;">ORDER TRACKING</div><div style="font-size:1.3rem;font-weight:800;margin-top:.25rem;">ORD-2848</div></div>
+                <span class="badge badge-warn" style="font-size:.8rem;padding:.4rem .9rem;">🔄 In Transit</span>
+              </div>
+              <div style="margin-bottom:1rem;padding:1rem;background:var(--card);border-radius:12px;">
+                <div style="font-size:.72rem;color:var(--t3);">ITEM</div>
+                <div style="font-weight:600;margin-top:.2rem;">Samsung Galaxy S24 Ultra</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+                <div style="background:var(--card);border-radius:10px;padding:.85rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3);">ETA</div><div style="font-size:1.4rem;font-weight:800;color:var(--ok);margin-top:.2rem;">8 min</div></div>
+                <div style="background:var(--card);border-radius:10px;padding:.85rem;text-align:center;"><div style="font-size:.72rem;color:var(--t3);">DISTANCE</div><div style="font-size:1.4rem;font-weight:800;color:var(--pri-l);margin-top:.2rem;">1.2 km</div></div>
+              </div>
+              <div style="margin-bottom:1rem;">
+                <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.5rem;"><span>Delivery Progress</span><strong style="color:var(--ok);">85%</strong></div>
+                <div class="progress-bar" style="height:10px;"><div class="progress-fill pf-green" style="width:85%"></div></div>
+              </div>
+              <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.85rem;font-size:.82rem;">
+                🤖 <strong>AI Update:</strong> Your partner Amit Sharma is 1.2km away. Expected at your door by 3:18 PM.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">📍 Partner Location</div>
+              <div style="background:var(--bg2);border-radius:16px;height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:1rem;">
+                <div style="position:absolute;width:12px;height:12px;background:var(--err);border-radius:50%;top:40%;left:35%;box-shadow:0 0 0 8px rgba(239,68,68,.2);"></div>
+                <div style="position:absolute;width:14px;height:14px;background:var(--ok);border-radius:50%;top:55%;left:55%;box-shadow:0 0 0 10px rgba(16,185,129,.2);" class="pulse"></div>
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 40px);"></div>
+                <span style="font-size:.8rem;color:var(--t3);position:absolute;bottom:.75rem;right:.75rem;">Simulated Map</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:.75rem;padding:.85rem;background:var(--card);border:1px solid var(--bdr);border-radius:12px;">
+                <div style="width:42px;height:42px;background:linear-gradient(135deg,var(--ok),#34d399);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.85rem;">AS</div>
+                <div><div style="font-weight:600;">Amit Sharma</div><div style="font-size:.78rem;color:var(--t2);">⭐ 4.9 · 🏍️ Bike · DP003</div></div>
+                <div style="margin-left:auto;"><span class="badge badge-ok">● Active</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">📬 AI-Generated Delivery Updates</div>
+            <div id="customerUpdates"></div>
+          </div>
+          <div style="margin-top:1.5rem;" class="card">
+            <div class="card-title">📦 Recent Orders</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Order ID</th><th>Item</th><th>Status</th><th>ETA</th><th>Partner</th><th>Value</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>ORD-2848</strong></td><td>Samsung Galaxy S24 Ultra</td><td><span class="badge badge-warn">In Transit</span></td><td>8 min</td><td>Amit Sharma</td><td>₹74,999</td></tr>
+                  <tr><td><strong>ORD-2791</strong></td><td>Apple AirPods Pro</td><td><span class="badge badge-ok">Delivered</span></td><td>—</td><td>Ravi Kumar</td><td>₹26,900</td></tr>
+                  <tr><td><strong>ORD-2703</strong></td><td>Laptop Stand + Hub</td><td><span class="badge badge-ok">Delivered</span></td><td>—</td><td>Vikram Reddy</td><td>₹3,499</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: ANALYTICS ══════════════════════════════ -->
+        <section id="sec-analytics" class="section">
+          <div class="page-header"><h1>📊 Analytics <span class="grad-text">Dashboard</span></h1><p>Comprehensive delivery analytics and performance insights</p></div>
+          <div class="grid-2" style="margin-bottom:1.5rem;">
+            <div class="chart-box"><div class="card-title">📈 Weekly Delivery Success Rate</div><canvas id="chartAnaLine"></canvas></div>
+            <div class="chart-box"><div class="card-title">📊 Daily Delay Trends</div><canvas id="chartAnaBar"></canvas></div>
+          </div>
+          <div class="grid-2" style="margin-bottom:1.5rem;">
+            <div class="chart-box"><div class="card-title">🍩 AI Prediction Accuracy</div><canvas id="chartAnaDoughnut"></canvas></div>
+            <div class="chart-box"><div class="card-title">🕸️ Region-wise Performance</div><canvas id="chartAnaRadar"></canvas></div>
+          </div>
+          <div class="chart-box"><div class="card-title">📉 Swap Frequency vs Delay Reduction (Hourly)</div><canvas id="chartAnaSwap"></canvas></div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: NOTIFICATIONS ══════════════════════════════ -->
+        <section id="sec-notifications" class="section">
+          <div class="page-header"><h1>🔔 Notification <span class="grad-text">Center</span></h1><p>Real-time system alerts, order updates, and AI notifications</p></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-primary" onclick="filterNotif('all')">All</button>
+              <button class="btn btn-sm btn-outline" onclick="filterNotif('ok')">✅ Success</button>
+              <button class="btn btn-sm btn-outline" onclick="filterNotif('warn')">⚠️ Warning</button>
+              <button class="btn btn-sm btn-outline" onclick="filterNotif('err')">❌ Alert</button>
+              <button class="btn btn-sm btn-outline" onclick="filterNotif('info')">ℹ️ Info</button>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="clearAllNotifs()">🗑️ Clear All</button>
+          </div>
+          <div id="notifList"></div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: ADMIN ══════════════════════════════ -->
+        <section id="sec-admin" class="section">
+          <div class="page-header"><h1>⚙️ Admin <span class="grad-text">Panel</span></h1><p>Manage partners, orders, zones, AI settings, and system configuration</p></div>
+          <div class="admin-tabs">
+            <div class="admin-tab active" onclick="switchAdmin('partners',this)">👷 Partners</div>
+            <div class="admin-tab" onclick="switchAdmin('orders',this)">📦 Orders</div>
+            <div class="admin-tab" onclick="switchAdmin('zones',this)">🗺️ Zones</div>
+            <div class="admin-tab" onclick="switchAdmin('ai-settings',this)">🤖 AI Settings</div>
+            <div class="admin-tab" onclick="switchAdmin('reports',this)">📊 Reports</div>
+            <div class="admin-tab" onclick="switchAdmin('users',this)">👥 Users</div>
+          </div>
+          <div id="admin-partners" class="admin-panel active">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
+              <div class="form-group" style="margin:0;flex:1;max-width:320px;"><input type="text" placeholder="🔍 Search partners..." id="adminPartnerSearch" oninput="renderAdminPartners()" style="padding:.6rem 1rem;"></div>
+              <button class="btn btn-primary btn-sm" onclick="addPartnerSim()">➕ Add Partner</button>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Vehicle</th><th>Rating</th><th>Status</th><th>Earnings</th><th>Actions</th></tr></thead><tbody id="adminPartnerBody"></tbody></table></div>
+          </div>
+          <div id="admin-orders" class="admin-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
+              <div class="form-group" style="margin:0;flex:1;max-width:320px;"><input type="text" placeholder="🔍 Search orders..." id="adminOrderSearch" oninput="renderAdminOrders()" style="padding:.6rem 1rem;"></div>
+              <select style="padding:.55rem 1rem;background:var(--card);border:1px solid var(--bdr);border-radius:10px;color:var(--t1);font-size:.82rem;" id="adminOrderFilter" onchange="renderAdminOrders()"><option value="all">All Status</option><option value="in-transit">In Transit</option><option value="delayed">Delayed</option><option value="swapped">Swapped</option></select>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Item</th><th>Partner</th><th>Status</th><th>ETA</th><th>Value</th><th>Actions</th></tr></thead><tbody id="adminOrderBody"></tbody></table></div>
+          </div>
+          <div id="admin-zones" class="admin-panel">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
+              <div class="card" style="text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🏙️</div><div style="font-weight:700;margin-bottom:.5rem;">Koramangala</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:.75rem;">Zone A — Central Hub</div><div style="font-size:.82rem;margin-bottom:.5rem;">Partners: <strong>248</strong> | Orders: <strong>634</strong></div><div class="progress-bar"><div class="progress-fill pf-blue" style="width:78%"></div></div><div style="font-size:.75rem;color:var(--t3);margin-top:.3rem;">78% capacity</div></div>
+              <div class="card" style="text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🏢</div><div style="font-weight:700;margin-bottom:.5rem;">Indiranagar</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:.75rem;">Zone B — North Sector</div><div style="font-size:.82rem;margin-bottom:.5rem;">Partners: <strong>196</strong> | Orders: <strong>428</strong></div><div class="progress-bar"><div class="progress-fill pf-green" style="width:55%"></div></div><div style="font-size:.75rem;color:var(--t3);margin-top:.3rem;">55% capacity</div></div>
+              <div class="card" style="text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🏘️</div><div style="font-weight:700;margin-bottom:.5rem;">HSR Layout</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:.75rem;">Zone C — South Hub</div><div style="font-size:.82rem;margin-bottom:.5rem;">Partners: <strong>312</strong> | Orders: <strong>789</strong></div><div class="progress-bar"><div class="progress-fill pf-orange" style="width:92%"></div></div><div style="font-size:.75rem;color:var(--t3);margin-top:.3rem;color:var(--warn)">92% capacity — HIGH</div></div>
+              <div class="card" style="text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🏗️</div><div style="font-weight:700;margin-bottom:.5rem;">Whitefield</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:.75rem;">Zone D — Tech Park</div><div style="font-size:.82rem;margin-bottom:.5rem;">Partners: <strong>178</strong> | Orders: <strong>367</strong></div><div class="progress-bar"><div class="progress-fill pf-purple" style="width:62%"></div></div><div style="font-size:.75rem;color:var(--t3);margin-top:.3rem;">62% capacity</div></div>
+            </div>
+          </div>
+          <div id="admin-ai-settings" class="admin-panel">
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-title">🤖 AI Engine Configuration</div>
+                <div class="form-group"><label>Swap Threshold Score: <span id="swapThreshVal">75</span></label><input type="range" min="50" max="99" value="75" oninput="document.getElementById('swapThreshVal').textContent=this.value"></div>
+                <div class="form-group"><label>Reassignment Radius (km): <span id="reRadiusVal">5</span> km</label><input type="range" min="1" max="15" value="5" oninput="document.getElementById('reRadiusVal').textContent=this.value"></div>
+                <div class="form-group"><label>Max Orders per Partner: <span id="maxOrdVal">6</span></label><input type="range" min="1" max="12" value="6" oninput="document.getElementById('maxOrdVal').textContent=this.value"></div>
+                <div class="form-group"><label>Prediction Confidence Minimum: <span id="confMinVal">80</span>%</label><input type="range" min="50" max="99" value="80" oninput="document.getElementById('confMinVal').textContent=this.value"></div>
+                <div class="form-group"><label>Auto-Swap Mode</label><select><option>Enabled (Fully Automatic)</option><option>Semi-Auto (Confirm Required)</option><option>Disabled (Manual Only)</option></select></div>
+                <button class="btn btn-primary" onclick="alert('AI settings saved successfully! ✅')">💾 Save AI Settings</button>
+              </div>
+              <div class="card">
+                <div class="card-title">⚙️ System Settings</div>
+                <div class="form-group"><label>Notification Frequency</label><select><option>Real-time</option><option>Every 5 minutes</option><option>Every 15 minutes</option></select></div>
+                <div class="form-group"><label>Map Refresh Rate (seconds): <span id="mapRefVal">5</span>s</label><input type="range" min="1" max="30" value="5" oninput="document.getElementById('mapRefVal').textContent=this.value"></div>
+                <div class="form-group"><label>Data Retention (days): <span id="dataRetVal">30</span></label><input type="range" min="7" max="365" value="30" oninput="document.getElementById('dataRetVal').textContent=this.value"></div>
+                <div class="form-group"><label>API Rate Limit (req/min): <span id="apiRateVal">1000</span></label><input type="range" min="100" max="5000" value="1000" oninput="document.getElementById('apiRateVal').textContent=this.value"></div>
+                <button class="btn btn-acc" onclick="alert('System settings saved! ✅')">💾 Save System Settings</button>
+              </div>
+            </div>
+          </div>
+          <div id="admin-reports" class="admin-panel">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
+              <div class="card" style="text-align:center;cursor:pointer;" onclick="alert('Downloading Daily Operations Report...')"><div style="font-size:2.5rem;margin-bottom:.75rem;">📊</div><div style="font-weight:700;margin-bottom:.5rem;">Daily Operations</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:1rem;">Complete delivery stats for today</div><button class="btn btn-sm btn-primary">⬇️ Download PDF</button></div>
+              <div class="card" style="text-align:center;cursor:pointer;" onclick="alert('Generating Weekly Performance Report...')"><div style="font-size:2.5rem;margin-bottom:.75rem;">📈</div><div style="font-weight:700;margin-bottom:.5rem;">Weekly Performance</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:1rem;">7-day trend analysis & KPIs</div><button class="btn btn-sm btn-primary">⬇️ Download Excel</button></div>
+              <div class="card" style="text-align:center;cursor:pointer;" onclick="alert('Generating AI Accuracy Report...')"><div style="font-size:2.5rem;margin-bottom:.75rem;">🤖</div><div style="font-weight:700;margin-bottom:.5rem;">AI Accuracy Report</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:1rem;">Prediction model performance stats</div><button class="btn btn-sm btn-acc">⬇️ Download CSV</button></div>
+              <div class="card" style="text-align:center;cursor:pointer;" onclick="alert('Generating Partner Report...')"><div style="font-size:2.5rem;margin-bottom:.75rem;">👷</div><div style="font-weight:700;margin-bottom:.5rem;">Partner Report</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:1rem;">Individual partner performance</div><button class="btn btn-sm btn-ok">⬇️ Download PDF</button></div>
+            </div>
+          </div>
+          <div id="admin-users" class="admin-panel">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>User ID</th><th>Name</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr><td>USR001</td><td><strong>Admin User</strong></td><td><span class="badge badge-err">Super Admin</span></td><td>admin@deliveryswap.ai</td><td>Just now</td><td><span class="badge badge-ok">Active</span></td><td><button class="btn btn-sm btn-outline">Edit</button></td></tr>
+                  <tr><td>USR002</td><td><strong>Ops Manager</strong></td><td><span class="badge badge-pri">Manager</span></td><td>ops@deliveryswap.ai</td><td>2h ago</td><td><span class="badge badge-ok">Active</span></td><td><button class="btn btn-sm btn-outline">Edit</button></td></tr>
+                  <tr><td>USR003</td><td><strong>Analytics Lead</strong></td><td><span class="badge badge-pur">Analyst</span></td><td>ana@deliveryswap.ai</td><td>1d ago</td><td><span class="badge badge-ok">Active</span></td><td><button class="btn btn-sm btn-outline">Edit</button></td></tr>
+                  <tr><td>USR004</td><td><strong>Support Agent</strong></td><td><span class="badge badge-info">Support</span></td><td>sup@deliveryswap.ai</td><td>3d ago</td><td><span class="badge badge-warn">Away</span></td><td><button class="btn btn-sm btn-outline">Edit</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: TECHNOLOGIES ══════════════════════════════ -->
+        <section id="sec-technologies" class="section">
+          <div class="page-header"><h1>💻 <span class="grad-text">Technologies</span> Used</h1><p>Modern tech stack powering DeliverySwap AI</p></div>
+          <div class="tech-grid">
+            <div class="tech-card"><span class="tech-icon">🌐</span><div class="tech-name">HTML5</div><div class="tech-desc">Semantic markup & structured layout</div></div>
+            <div class="tech-card"><span class="tech-icon">🎨</span><div class="tech-name">CSS3</div><div class="tech-desc">Glassmorphism, animations & responsive design</div></div>
+            <div class="tech-card"><span class="tech-icon">⚡</span><div class="tech-name">JavaScript ES6+</div><div class="tech-desc">Dynamic UI, simulation & logic engine</div></div>
+            <div class="tech-card"><span class="tech-icon">📱</span><div class="tech-name">Responsive UI</div><div class="tech-desc">Mobile-first adaptive design system</div></div>
+            <div class="tech-card"><span class="tech-icon">🤖</span><div class="tech-name">AI Prediction Engine</div><div class="tech-desc">Intelligent delay & swap scoring algorithm</div></div>
+            <div class="tech-card"><span class="tech-icon">🗺️</span><div class="tech-name">Google Maps API</div><div class="tech-desc">Real-time geolocation & route optimization</div></div>
+            <div class="tech-card"><span class="tech-icon">🧠</span><div class="tech-name">Machine Learning</div><div class="tech-desc">Predictive model for delay forecasting</div></div>
+            <div class="tech-card"><span class="tech-icon">🔔</span><div class="tech-name">Real-time Notifications</div><div class="tech-desc">WebSocket-based push notification system</div></div>
+            <div class="tech-card"><span class="tech-icon">📊</span><div class="tech-name">Chart.js</div><div class="tech-desc">Interactive data visualization & analytics</div></div>
+            <div class="tech-card"><span class="tech-icon">🚀</span><div class="tech-name">GitHub Pages</div><div class="tech-desc">Static hosting & CI/CD deployment</div></div>
+            <div class="tech-card"><span class="tech-icon">🔒</span><div class="tech-name">JWT Auth</div><div class="tech-desc">Secure token-based authentication</div></div>
+            <div class="tech-card"><span class="tech-icon">☁️</span><div class="tech-name">Cloud Ready</div><div class="tech-desc">AWS / GCP scalable infrastructure</div></div>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: ABOUT ══════════════════════════════ -->
+        <section id="sec-about" class="section">
+          <div class="about-hero">
+            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--pri-l);margin-bottom:.75rem;">About This Project</div>
+            <h1 style="font-family:'Outfit',sans-serif;font-size:2.5rem;font-weight:800;margin-bottom:1rem;"><span class="grad-text">DeliverySwap AI</span></h1>
+            <p style="color:var(--t2);max-width:700px;margin:0 auto;line-height:1.7;font-size:1rem;">DeliverySwap AI demonstrates how Artificial Intelligence can transform e-commerce logistics through intelligent delivery partner reassignment and predictive delivery management. By continuously monitoring live delivery conditions, forecasting delays, and automatically assigning orders to the most suitable nearby delivery partner, the platform minimizes delivery time, improves operational efficiency, and enhances customer satisfaction.</p>
+          </div>
+          <div class="feature-grid">
+            <div class="feature-card"><span class="feature-icon">🔍</span><h3 style="margin-bottom:.5rem;">Continuous Monitoring</h3><p style="color:var(--t2);font-size:.85rem;line-height:1.6;">The AI engine continuously monitors all active deliveries, tracking partner locations, traffic conditions, weather, and vehicle status in real-time 24/7.</p></div>
+            <div class="feature-card"><span class="feature-icon">⚡</span><h3 style="margin-bottom:.5rem;">Delay Prediction</h3><p style="color:var(--t2);font-size:.85rem;line-height:1.6;">Machine learning models analyze 7+ factors including traffic congestion, weather conditions, partner workload, and distance to predict delays before they happen.</p></div>
+            <div class="feature-card"><span class="feature-icon">🔄</span><h3 style="margin-bottom:.5rem;">Dynamic Reassignment</h3><p style="color:var(--t2);font-size:.85rem;line-height:1.6;">When delays are detected, the Smart Swap Engine scores all nearby available partners and automatically reassigns orders to the optimal partner within seconds.</p></div>
+            <div class="feature-card"><span class="feature-icon">📊</span><h3 style="margin-bottom:.5rem;">Analytics & Insights</h3><p style="color:var(--t2);font-size:.85rem;line-height:1.6;">Comprehensive dashboards provide real-time analytics on delivery performance, AI accuracy, swap frequency, and region-wise efficiency metrics.</p></div>
+            <div class="feature-card"><span class="feature-icon">🎯</span><h3 style="margin-bottom:.5rem;">Last-mile Optimization</h3><p style="color:var(--t2);font-size:.85ms;line-height:1.6;">Optimizes last-mile delivery operations for large-scale e-commerce platforms like Flipkart, reducing average delivery time by 18-25%.</p></div>
+            <div class="feature-card"><span class="feature-icon">😊</span><h3 style="margin-bottom:.5rem;">Customer Satisfaction</h3><p style="color:var(--t2);font-size:.85rem;line-height:1.6;">Real-time tracking, AI-generated delivery updates, and proactive delay notifications keep customers informed and satisfied throughout the delivery journey.</p></div>
+          </div>
+          <div style="margin-top:2rem;background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(139,92,246,.1));border:1px solid var(--bdr);border-radius:20px;padding:2rem;text-align:center;">
+            <h3 style="margin-bottom:1rem;">🏁 Conclusion</h3>
+            <p style="color:var(--t2);max-width:750px;margin:0 auto;line-height:1.8;font-size:.9rem;">This solution showcases the potential of AI-driven real-time decision-making to build smarter, faster, and more reliable last-mile delivery systems for large-scale e-commerce platforms. By reducing delivery time, improving operational efficiency, reducing logistics costs, and enhancing customer satisfaction, <strong style="color:var(--t1);">DeliverySwap AI</strong> represents the future of intelligent logistics management.</p>
+          </div>
+        </section>
+        <!-- ══════════════════════════════ SECTION: CONTACT ══════════════════════════════ -->
+        <section id="sec-contact" class="section">
+          <div class="page-header"><h1>📧 <span class="grad-text">Contact Us</span></h1><p>Get in touch with the DeliverySwap AI team</p></div>
+          <div class="contact-wrap">
+            <div class="contact-info">
+              <div style="margin-bottom:.5rem;"><h3>Let's Connect 🤝</h3><p style="color:var(--t2);font-size:.875rem;margin-top:.35rem;">Have questions about DeliverySwap AI? We'd love to hear from you.</p></div>
+              <div class="contact-info-item"><div class="ci-icon">📧</div><div><div class="ci-label">Email</div><div class="ci-val">contact@deliveryswap.ai</div></div></div>
+              <div class="contact-info-item"><div class="ci-icon">📞</div><div><div class="ci-label">Phone</div><div class="ci-val">+91 98765 43210</div></div></div>
+              <div class="contact-info-item"><div class="ci-icon">📍</div><div><div class="ci-label">Location</div><div class="ci-val">Bengaluru, Karnataka, India</div></div></div>
+              <div class="contact-info-item"><div class="ci-icon">🕒</div><div><div class="ci-label">Support Hours</div><div class="ci-val">24/7 AI-Powered Support</div></div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">💬 Send a Message</div>
+              <div id="contactSuccess" style="display:none;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:1.25rem;text-align:center;margin-bottom:1rem;"><div style="font-size:1.5rem;margin-bottom:.5rem;">🎉</div><div style="font-weight:700;color:var(--ok);">Message Sent Successfully!</div><div style="font-size:.85rem;color:var(--t2);margin-top:.3rem;">We'll get back to you within 24 hours.</div></div>
+              <form id="contactForm" onsubmit="submitContact(event)">
+                <div class="form-group"><label>Your Name</label><input type="text" id="ct-name" placeholder="Enter your full name" required></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="ct-email" placeholder="Enter your email" required></div>
+                <div class="form-group"><label>Subject</label><input type="text" id="ct-subject" placeholder="What is this about?"></div>
+                <div class="form-group"><label>Message</label><textarea id="ct-message" placeholder="Write your message here..." required></textarea></div>
+                <button type="submit" class="btn btn-primary btn-full">🚀 Send Message</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div><!-- /sectionsContainer -->
+      <footer class="app-footer">
+        <strong style="background:linear-gradient(135deg,var(--pri-l),var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">DeliverySwap AI</strong> — AI-Powered Dynamic Delivery Partner Reassignment System &nbsp;|&nbsp; Built with ❤️ for intelligent logistics &nbsp;|&nbsp; © 2024
+      </footer>
+    </div><!-- /mainContent -->
+  </div><!-- /app-layout -->
+</div><!-- /mainApp -->
+<script>
+// ═══════════════════════════════════════════════════════════
+//                     GLOBAL STATE
+// ═══════════════════════════════════════════════════════════
+var isDark = true;
+var currentSection = 'home';
+var mapAnim = null;
+var chartsCreated = {};
+var notifications = [];
+var notifId = 0;
+var notifFilter = 'all';
+var tyInterval = null;
+var partners = [
+  {id:'DP001',name:'Ravi Kumar',vehicle:'Bike',rating:4.8,orders:3,fuel:85,status:'active',earnings:2840,completedToday:12,location:'Koramangala'},
+  {id:'DP002',name:'Priya Singh',vehicle:'Scooter',rating:4.6,orders:2,fuel:60,status:'active',earnings:2340,completedToday:9,location:'Indiranagar'},
+  {id:'DP003',name:'Amit Sharma',vehicle:'Bike',rating:4.9,orders:1,fuel:92,status:'active',earnings:3100,completedToday:15,location:'HSR Layout'},
+  {id:'DP004',name:'Sunita Patel',vehicle:'Cycle',rating:4.5,orders:4,fuel:100,status:'busy',earnings:1980,completedToday:7,location:'Jayanagar'},
+  {id:'DP005',name:'Vikram Reddy',vehicle:'Bike',rating:4.7,orders:2,fuel:45,status:'active',earnings:2560,completedToday:11,location:'Whitefield'},
+  {id:'DP006',name:'Kavya Nair',vehicle:'Scooter',rating:4.3,orders:5,fuel:30,status:'busy',earnings:1750,completedToday:6,location:'Electronic City'}
+];
+var ordersData = [
+  {id:'ORD-2847',customer:'Anjali Mehta',item:'HP Laptop 15s',partner:'DP001',status:'in-transit',eta:'15 min',priority:'high',value:52999},
+  {id:'ORD-2848',customer:'Rahul Gupta',item:'Samsung Galaxy S24',partner:'DP002',status:'delayed',eta:'35 min',priority:'high',value:74999},
+  {id:'ORD-2849',customer:'Meera Iyer',item:'Nike Air Max 2024',partner:'DP003',status:'in-transit',eta:'8 min',priority:'medium',value:8999},
+  {id:'ORD-2850',customer:'Arjun Verma',item:'Sony WH-1000XM5',partner:'DP004',status:'swapped',eta:'22 min',priority:'medium',value:29990},
+  {id:'ORD-2851',customer:'Pooja Sharma',item:'Apple Watch Series 9',partner:'DP005',status:'in-transit',eta:'12 min',priority:'low',value:41900},
+  {id:'ORD-2852',customer:'Karan Malhotra',item:'LG 43" Smart TV',partner:'DP006',status:'delayed',eta:'45 min',priority:'high',value:35990}
+];
+var mapParticles = [];
+// ═══════════════════════════════════════════════════════════
+//                       LOGIN / LOGOUT
+// ═══════════════════════════════════════════════════════════
+function handleLogin(){
+  var u = document.getElementById('loginUsername').value.trim();
+  var p = document.getElementById('loginPassword').value.trim();
+  if(!u||!p){showLoginErr('Please enter username and password.');return;}
+  if((u==='admin'&&p==='admin123')||(u==='user'&&p==='user123')){
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+    var name=u==='admin'?'Admin User':'Demo User';
+    document.getElementById('loggedUserName').textContent=name;
+    document.getElementById('sbUserName').textContent=name;
+    document.getElementById('sbAvatar').textContent=name.charAt(0);
+    startApp();
+  } else {
+    showLoginErr('Invalid credentials. Try admin / admin123');
+    document.querySelector('.login-card').classList.add('shake');
+    setTimeout(function(){document.querySelector('.login-card').classList.remove('shake');},600);
+  }
+}
+function showLoginErr(msg){
+  var el=document.getElementById('loginError');
+  el.textContent=msg;el.style.display='block';
+  setTimeout(function(){el.style.display='none';},3500);
+}
+function handleLogout(){
+  if(!confirm('Are you sure you want to logout?'))return;
+  stopMap();
+  Object.keys(chartsCreated).forEach(function(k){
+    try{if(chartsCreated[k])chartsCreated[k].destroy();}catch(e){}
+    delete chartsCreated[k];
+  });
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('thankYouPage').style.display='flex';
+  startTyTimer();
+}
+function goToLogin(){
+  clearInterval(tyInterval);
+  document.getElementById('thankYouPage').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('loginUsername').value='';
+  document.getElementById('loginPassword').value='';
+}
+function startTyTimer(){
+  var count=5;
+  var ring=document.getElementById('tyProgressRing');
+  var circ=2*Math.PI*26;
+  ring.style.strokeDasharray=circ;
+  ring.style.strokeDashoffset=0;
+  document.getElementById('tyTimer').textContent='Redirecting to login in '+count+' seconds...';
+  tyInterval=setInterval(function(){
+    count--;
+    document.getElementById('tyTimer').textContent='Redirecting to login in '+count+' seconds...';
+    var pct=(5-count)/5;
+    ring.style.strokeDashoffset=circ*(1-pct);
+    if(count<=0){clearInterval(tyInterval);goToLogin();}
+  },1000);
+}
+// ═══════════════════════════════════════════════════════════
+//                    APP INITIALIZATION
+// ═══════════════════════════════════════════════════════════
+function startApp(){
+  notifications=[];notifId=0;
+  showSection('home');
+  updateHomeStats();
+  setInterval(updateHomeStats,4000);
+  setInterval(autoNotif,18000);
+  renderPartnerTable();
+  renderCustomerUpdates();
+  renderPartnerStatus();
+  addNotification('ok','🎉 Welcome to DeliverySwap AI! System is live and monitoring all deliveries.','System');
+  addNotification('info','📊 AI engine has analyzed 2,847 active orders. 156 flagged for potential delay.','AI Engine');
+  addNotification('warn','⚠️ High traffic detected in HSR Layout — 34 orders may be delayed.','Traffic Alert');
+  addNotification('ok','✅ Smart Swap completed for ORD-2848 — Estimated time saved: 27 minutes.','Swap Engine');
+  tickerScroll();
+}
+var tickerMessages=[
+  '🚀 AI reassigned ORD-2848 to Amit Sharma — 27 min saved',
+  '✅ Ravi Kumar delivered ORD-2831 to Anjali Mehta — ⭐⭐⭐⭐⭐',
+  '⚠️ Traffic jam on Outer Ring Road — 12 orders rerouted by AI',
+  '🔄 Smart Swap Engine processed 423 swaps today — 94.7% success rate',
+  '📦 2,847 active orders across 6 delivery zones — System optimal',
+  '🤖 AI predicts peak traffic at 6:00 PM — Pre-emptive reassignment initiated',
+  '✅ Vikram Reddy completed 11 deliveries — Earning bonus ₹500',
+  '🌧️ Light rain in Whitefield — AI adjusted ETAs for 67 orders',
+];
+var tickerIdx=0;
+function tickerScroll(){
+  var el=document.getElementById('liveTicker');
+  if(!el)return;
+  el.style.opacity=0;
+  setTimeout(function(){
+    el.textContent=tickerMessages[tickerIdx%tickerMessages.length];
+    el.style.opacity=1;el.style.transition='opacity .5s';
+    tickerIdx++;
+    setTimeout(tickerScroll,5000);
+  },300);
+}
+// ═══════════════════════════════════════════════════════════
+//                     NAVIGATION
+// ═══════════════════════════════════════════════════════════
+var sectionTitles={
+  'home':'🏠 Home Dashboard','ai-dashboard':'🤖 AI Dashboard',
+  'reassignment':'🔄 Reassignment Module','delay-prediction':'⚡ Delay Prediction',
+  'swap-engine':'🧠 Smart Swap Engine','live-tracking':'🗺️ Live Tracking',
+  'partner-dashboard':'👷 Partner Dashboard','customer-dashboard':'📦 Customer Dashboard',
+  'analytics':'📊 Analytics','notifications':'🔔 Notifications',
+  'admin':'⚙️ Admin Panel','technologies':'💻 Technologies',
+  'about':'ℹ️ About Project','contact':'📧 Contact'
+};
+function showSection(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  var target=document.getElementById('sec-'+id);
+  if(target)target.classList.add('active');
+  currentSection=id;
+  document.querySelectorAll('.nav-item').forEach(function(item){
+    item.classList.remove('active');
+    if(item.dataset.section===id)item.classList.add('active');
+  });
+  var tb=document.getElementById('topBarTitle');
+  if(tb)tb.textContent=sectionTitles[id]||id;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+  // Section init
+  setTimeout(function(){initSection(id);},100);
+}
+function initSection(id){
+  if(id==='ai-dashboard'){
+    if(!chartsCreated['aiLine'])initAIDashCharts();
+  } else if(id==='analytics'){
+    initAnalyticsCharts();
+  } else if(id==='live-tracking'){
+    initMap();
+  } else if(id==='partner-dashboard'){
+    if(!chartsCreated['partnerBar'])initPartnerCharts();
+    renderPartnerTable();
+  } else if(id==='admin'){
+    renderAdminPartners();renderAdminOrders();
+  } else if(id==='notifications'){
+    renderNotifList();
+  }
+}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sbOverlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show');}
+// ═══════════════════════════════════════════════════════════
+//                     THEME TOGGLE
+// ═══════════════════════════════════════════════════════════
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+}
+// ═══════════════════════════════════════════════════════════
+//                   LIVE STATS UPDATE
+// ═══════════════════════════════════════════════════════════
+function rnd(base,range){return base+Math.floor(Math.random()*range-range/2);}
+function updateHomeStats(){
+  var els={
+    'h-active':rnd(2847,50),'h-swaps':rnd(423,10),
+    'h-partners':rnd(1284,20),'ai-active':rnd(2847,50),
+    'ai-delayed':rnd(156,15),'ai-partners':rnd(1284,20),
+    'ai-swapped':rnd(423,10)
+  };
+  Object.keys(els).forEach(function(k){
+    var el=document.getElementById(k);
+    if(el)el.textContent=els[k].toLocaleString();
+  });
+  var sr=(94+Math.random()*1.5).toFixed(1);
+  ['h-success','ai-success'].forEach(function(k){var e=document.getElementById(k);if(e)e.textContent=sr+'%';});
+  var eta=(17+Math.random()*3).toFixed(1);
+  var he=document.getElementById('h-eta');if(he)he.textContent=eta+'m';
+  var ai=(97.5+Math.random()*1.5).toFixed(1);
+  var ae=document.getElementById('h-ai');if(ae)ae.textContent=ai+'%';
+}
+// ═══════════════════════════════════════════════════════════
+//                   RECENT UPDATES (HOME)
+// ═══════════════════════════════════════════════════════════
+var recentItems=[
+  {icon:'✅',text:'ORD-2847 delivered to Anjali Mehta in 14 min',time:'2 min ago',col:'ok'},
+  {icon:'🔄',text:'AI swapped ORD-2848 from Priya Singh → Amit Sharma',time:'5 min ago',col:'pri'},
+  {icon:'⚠️',text:'Traffic delay on ORR — 8 orders flagged for review',time:'8 min ago',col:'warn'},
+  {icon:'🤖',text:'AI predicted delay for ORD-2852 — reassignment queued',time:'12 min ago',col:'pur'},
+  {icon:'✅',text:'ORD-2849 delivered to Meera Iyer — ⭐⭐⭐⭐⭐',time:'18 min ago',col:'ok'},
+  {icon:'📦',text:'125 new orders assigned across Bengaluru zones',time:'25 min ago',col:'info'}
+];
+function renderRecentUpdates(){
+  var el=document.getElementById('recentUpdates');
+  if(!el)return;
+  el.innerHTML=recentItems.map(function(item){
+    return '<div style="display:flex;align-items:flex-start;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--bdr);">'+
+      '<div style="width:34px;height:34px;border-radius:10px;background:rgba(var(--'+item.col+'-rgb,37,99,235),.12);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;">'+item.icon+'</div>'+
+      '<div style="flex:1;"><div style="font-size:.83rem;line-height:1.4;">'+item.text+'</div><div style="font-size:.73rem;color:var(--t3);margin-top:.25rem;">'+item.time+'</div></div>'+
+    '</div>';
+  }).join('');
+}
+// ═══════════════════════════════════════════════════════════
+//                   CHART HELPERS
+// ═══════════════════════════════════════════════════════════
+function destroyChart(key){
+  try{if(chartsCreated[key]){chartsCreated[key].destroy();delete chartsCreated[key];}}catch(e){}
+}
+var chartDefaults={
+  responsive:true,maintainAspectRatio:true,
+  plugins:{legend:{labels:{color:'#94a3b8',font:{family:'Inter',size:11}}}},
+  scales:{x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'}}}
+};
+function mkLineData(labels,data,label,color){
+  return {labels:labels,datasets:[{label:label,data:data,borderColor:color,backgroundColor:color.replace(')',', 0.1)').replace('rgb','rgba'),tension:.4,fill:true,pointBackgroundColor:color,pointRadius:4}]};
+}
+function mkBarData(labels,data,label,colors){
+  return {labels:labels,datasets:[{label:label,data:data,backgroundColor:colors||'rgba(37,99,235,0.6)',borderRadius:6,borderSkipped:false}]};
+}
+// ═══════════════════════════════════════════════════════════
+//                   AI DASHBOARD CHARTS
+// ═══════════════════════════════════════════════════════════
+function initAIDashCharts(){
+  var days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var c1=document.getElementById('chartAILine');
+  if(c1&&!chartsCreated['aiLine']){
+    chartsCreated['aiLine']=new Chart(c1,{type:'line',data:mkLineData(days,[91,93,92,95,94,96,94.7],'Success Rate (%)','rgb(37,99,235)'),options:Object.assign({},chartDefaults)});
+  }
+  var c2=document.getElementById('chartAIDoughnut');
+  if(c2&&!chartsCreated['aiDoughnut']){
+    chartsCreated['aiDoughnut']=new Chart(c2,{type:'doughnut',data:{labels:['In Transit','Completed','Delayed','Swapped','Pending'],datasets:[{data:[45,35,7,8,5],backgroundColor:['rgba(37,99,235,0.8)','rgba(16,185,129,0.8)','rgba(239,68,68,0.8)','rgba(139,92,246,0.8)','rgba(245,158,11,0.8)'],borderColor:'transparent',borderWidth:0}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{family:'Inter',size:11},padding:15}}}}});
+  }
+  var hrs=['6AM','7AM','8AM','9AM','10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
+  var c3=document.getElementById('chartAIBar');
+  if(c3&&!chartsCreated['aiBar']){
+    chartsCreated['aiBar']=new Chart(c3,{type:'bar',data:mkBarData(hrs,[12,18,34,52,41,38,45,49,55,48,62,58],'Swaps per Hour',['rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.7)','rgba(249,115,22,0.9)','rgba(249,115,22,0.9)']),options:Object.assign({},chartDefaults)});
+  }
+}
+// ═══════════════════════════════════════════════════════════
+//                   ANALYTICS CHARTS
+// ═══════════════════════════════════════════════════════════
+function initAnalyticsCharts(){
+  var days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var hours=['6AM','8AM','10AM','12PM','2PM','4PM','6PM','8PM'];
+  destroyChart('anaLine');destroyChart('anaBar');destroyChart('anaDoughnut');destroyChart('anaRadar');destroyChart('anaSwap');
+  var c1=document.getElementById('chartAnaLine');
+  if(c1)chartsCreated['anaLine']=new Chart(c1,{type:'line',data:{labels:days,datasets:[{label:'Success Rate %',data:[91.2,93.5,92.1,95.4,94.7,96.1,94.7],borderColor:'rgb(16,185,129)',backgroundColor:'rgba(16,185,129,0.1)',tension:.4,fill:true,pointRadius:4},{label:'AI Accuracy %',data:[97.1,97.8,96.9,98.2,98.1,98.4,98.2],borderColor:'rgb(37,99,235)',backgroundColor:'rgba(37,99,235,0.1)',tension:.4,fill:true,pointRadius:4}]},options:Object.assign({},chartDefaults)});
+  var c2=document.getElementById('chartAnaBar');
+  if(c2)chartsCreated['anaBar']=new Chart(c2,{type:'bar',data:mkBarData(days,[34,28,42,19,38,25,30],'Delays Detected',['rgba(239,68,68,0.7)','rgba(239,68,68,0.7)','rgba(239,68,68,0.9)','rgba(239,68,68,0.5)','rgba(239,68,68,0.8)','rgba(239,68,68,0.6)','rgba(239,68,68,0.7)']),options:Object.assign({},chartDefaults)});
+  var c3=document.getElementById('chartAnaDoughnut');
+  if(c3)chartsCreated['anaDoughnut']=new Chart(c3,{type:'doughnut',data:{labels:['Accurate Predictions','Near-accurate','Missed Predictions'],datasets:[{data:[82,11,7],backgroundColor:['rgba(16,185,129,0.8)','rgba(245,158,11,0.8)','rgba(239,68,68,0.8)'],borderColor:'transparent'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:15}}}}});
+  var c4=document.getElementById('chartAnaRadar');
+  if(c4)chartsCreated['anaRadar']=new Chart(c4,{type:'radar',data:{labels:['Koramangala','Indiranagar','HSR Layout','Whitefield','Jayanagar','Electronic City'],datasets:[{label:'Delivery Success %',data:[96,94,91,95,93,88],backgroundColor:'rgba(37,99,235,0.15)',borderColor:'rgb(37,99,235)',pointBackgroundColor:'rgb(37,99,235)'},{label:'Partner Rating',data:[92,89,96,88,90,85],backgroundColor:'rgba(249,115,22,0.1)',borderColor:'rgb(249,115,22)',pointBackgroundColor:'rgb(249,115,22)'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{r:{ticks:{color:'#64748b',backdropColor:'transparent',font:{size:9}},grid:{color:'rgba(255,255,255,0.07)'},pointLabels:{color:'#94a3b8',font:{size:10}}}}}});
+  var c5=document.getElementById('chartAnaSwap');
+  if(c5)chartsCreated['anaSwap']=new Chart(c5,{type:'bar',data:{labels:hours,datasets:[{label:'Swaps Performed',data:[8,22,38,45,52,48,62,34],backgroundColor:'rgba(139,92,246,0.7)',borderRadius:6,yAxisID:'y'},{label:'Delay Reduction (min)',data:[2,6,11,14,18,16,22,12],type:'line',borderColor:'rgb(16,185,129)',backgroundColor:'rgba(16,185,129,0.1)',tension:.4,fill:true,yAxisID:'y1',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#64748b'},grid:{color:'rgba(255,255,255,0.05)'},title:{display:true,text:'Swaps',color:'#64748b'}},y1:{position:'right',ticks:{color:'#64748b'},grid:{display:false},title:{display:true,text:'Delay Saved (min)',color:'#64748b'}}}}});
+}
+// ═══════════════════════════════════════════════════════════
+//                   PARTNER CHARTS
+// ═══════════════════════════════════════════════════════════
+function initPartnerCharts(){
+  var names=partners.map(function(p){return p.name.split(' ')[0];});
+  var ratings=partners.map(function(p){return p.rating;});
+  var completed=partners.map(function(p){return p.completedToday;});
+  var c=document.getElementById('chartPartnerBar');
+  if(c&&!chartsCreated['partnerBar']){
+    chartsCreated['partnerBar']=new Chart(c,{type:'bar',data:{labels:names,datasets:[{label:'Deliveries Today',data:completed,backgroundColor:'rgba(37,99,235,0.7)',borderRadius:6,yAxisID:'y'},{label:'Rating (×10)',data:ratings.map(function(r){return r*10;}),type:'line',borderColor:'rgb(245,158,11)',backgroundColor:'rgba(245,158,11,0.1)',tension:.4,fill:false,yAxisID:'y1',pointRadius:5,pointBackgroundColor:'rgb(245,158,11)'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#64748b'},grid:{color:'rgba(255,255,255,0.05)'}},y1:{position:'right',ticks:{color:'#64748b'},grid:{display:false}}}}});
+  }
+}
+// ═══════════════════════════════════════════════════════════
+//                      CANVAS MAP
+// ═══════════════════════════════════════════════════════════
+function initMap(){
+  stopMap();
+  var canvas=document.getElementById('mapCanvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth||800;
+  canvas.height=420;
+  var W=canvas.width,H=canvas.height;
+  mapParticles=[
+    {x:120,y:80,tx:350,ty:200,color:'#3b82f6',label:'RK',name:'Ravi Kumar',init:true},
+    {x:300,y:150,tx:150,ty:320,color:'#8b5cf6',label:'PS',name:'Priya Singh (Delayed)',init:true},
+    {x:220,y:280,tx:480,ty:120,color:'#10b981',label:'AS',name:'Amit Sharma',init:true},
+    {x:480,y:60,tx:250,ty:380,color:'#3b82f6',label:'SP',name:'Sunita Patel',init:true},
+    {x:400,y:330,tx:80,ty:200,color:'#3b82f6',label:'VR',name:'Vikram Reddy',init:true},
+    {x:560,y:200,tx:400,ty:350,color:'#8b5cf6',label:'KN',name:'Kavya Nair',init:true}
+  ];
+  function drawRoads(ctx,W,H){
+    ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=12;
+    var hRoads=[0.2,0.4,0.6,0.8];var vRoads=[0.15,0.35,0.55,0.75,0.9];
+    hRoads.forEach(function(r){ctx.beginPath();ctx.moveTo(0,H*r);ctx.lineTo(W,H*r);ctx.stroke();});
+    vRoads.forEach(function(r){ctx.beginPath();ctx.moveTo(W*r,0);ctx.lineTo(W*r,H);ctx.stroke();});
+    ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=2;
+    for(var i=0;i<W;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(var j=0;j<H;j+=40){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(W,j);ctx.stroke();}
+  }
+  function drawOrderMarkers(ctx){
+    var markers=[{x:350,y:200,col:'#f97316',lbl:'📦'},{x:150,y:320,col:'#ef4444',lbl:'🏠'},{x:480,y:120,col:'#f97316',lbl:'📦'},{x:250,y:380,col:'#ef4444',lbl:'🏠'},{x:80,y:200,col:'#f97316',lbl:'📦'}];
+    markers.forEach(function(m){
+      ctx.beginPath();ctx.arc(m.x,m.y,14,0,Math.PI*2);
+      ctx.fillStyle=m.col+'33';ctx.fill();
+      ctx.beginPath();ctx.arc(m.x,m.y,8,0,Math.PI*2);
+      ctx.fillStyle=m.col;ctx.fill();
+      ctx.font='11px Inter';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(m.lbl,m.x,m.y);
+    });
+  }
+  var pulse=0;
+  function animFrame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
+    drawRoads(ctx,W,H);
+    pulse=(pulse+0.04)%1;
+    mapParticles.forEach(function(p){
+      var dx=p.tx-p.x,dy=p.ty-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist>4){p.x+=dx/dist*1.2;p.y+=dy/dist*1.2;}
+      else{p.tx=Math.random()*W*0.85+W*0.07;p.ty=Math.random()*H*0.85+H*0.07;}
+      // Draw pulse
+      var pr=18+pulse*15;
+      ctx.beginPath();ctx.arc(p.x,p.y,pr,0,Math.PI*2);
+      ctx.fillStyle=p.color+'22';ctx.fill();
+      // Draw circle
+      ctx.beginPath();ctx.arc(p.x,p.y,16,0,Math.PI*2);
+      ctx.fillStyle=p.color;ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;ctx.stroke();
+      // Label
+      ctx.font='bold 10px Inter';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle='#fff';ctx.fillText(p.label,p.x,p.y);
+      // Name tag
+      ctx.font='10px Inter';ctx.fillStyle='rgba(255,255,255,0.7)';
+      ctx.fillText(p.name.split(' ')[0],p.x,p.y+28);
+    });
+    drawOrderMarkers(ctx);
+    // Draw zoom label
+    ctx.font='11px Inter';ctx.fillStyle='rgba(255,255,255,0.25)';ctx.textAlign='left';ctx.fillText('Bengaluru Delivery Network — Live View',12,H-12);
+    mapAnim=requestAnimationFrame(animFrame);
+  }
+  animFrame();
+}
+function stopMap(){
+  if(mapAnim){cancelAnimationFrame(mapAnim);mapAnim=null;}
+}
+// ═══════════════════════════════════════════════════════════
+//                  PARTNER STATUS LIST
+// ═══════════════════════════════════════════════════════════
+function renderPartnerStatus(){
+  var el=document.getElementById('partnerStatusList');
+  if(!el)return;
+  el.innerHTML=partners.map(function(p){
+    return '<div style="display:flex;align-items:center;gap:.85rem;padding:.75rem 0;border-bottom:1px solid var(--bdr);">'+
+      '<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,'+
+      (p.status==='active'?'var(--ok),#34d399':'var(--pur),#a78bfa')+
+      ');display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">'+
+      p.name.charAt(0)+p.name.split(' ')[1].charAt(0)+'</div>'+
+      '<div style="flex:1;"><div style="font-size:.85rem;font-weight:600;">'+p.name+'</div>'+
+      '<div style="font-size:.75rem;color:var(--t2);">'+p.vehicle+' · '+p.location+'</div></div>'+
+      '<span class="badge '+(p.status==='active'?'badge-ok':'badge-pur')+'">● '+p.status+'</span>'+
+      '</div>';
+  }).join('');
+}
+// ═══════════════════════════════════════════════════════════
+//                  PARTNER TABLE
+// ═══════════════════════════════════════════════════════════
+function renderPartnerTable(){
+  var el=document.getElementById('partnerTableBody');
+  if(!el)return;
+  el.innerHTML=partners.map(function(p){
+    var stars='★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating));
+    return '<tr><td><strong>'+p.id+'</strong></td><td>'+p.name+'</td><td>'+p.vehicle+'</td>'+
+      '<td><span style="color:var(--warn)">'+stars+'</span> '+p.rating+'</td>'+
+      '<td>'+p.orders+'</td><td>'+p.completedToday+'</td>'+
+      '<td><div style="display:flex;align-items:center;gap:.5rem;"><div class="progress-bar" style="width:70px;"><div class="progress-fill '+(p.fuel>60?'pf-green':p.fuel>30?'pf-orange':'pf-red')+'" style="width:'+p.fuel+'%"></div></div><span style="font-size:.75rem;color:var(--t2)">'+p.fuel+'%</span></div></td>'+
+      '<td><span class="badge '+(p.status==='active'?'badge-ok':'badge-warn')+'">'+p.status+'</span></td>'+
+      '<td>₹'+p.earnings.toLocaleString()+'</td></tr>';
+  }).join('');
+}
+// ═══════════════════════════════════════════════════════════
+//               CUSTOMER UPDATES
+// ═══════════════════════════════════════════════════════════
+var custUpdates=[
+  {icon:'🤖',text:'AI detected a potential 22-minute delay for your order. Initiating smart partner swap...','time':'3:05 PM','col':'warn'},
+  {icon:'🔄',text:'Order reassigned to Amit Sharma (DP003). He is 1.8 km away from pickup.','time':'3:06 PM','col':'pri'},
+  {icon:'📍',text:'Amit Sharma has picked up your Samsung Galaxy S24 from the warehouse.','time':'3:08 PM','col':'info'},
+  {icon:'🚀',text:'Your delivery partner is now 1.2 km away. Estimated arrival: 8 minutes.','time':'3:10 PM','col':'ok'},
+  {icon:'🎯',text:'On-time delivery confirmed! AI saved you 27 minutes via smart swap.','time':'Expected 3:18 PM','col':'ok'}
+];
+function renderCustomerUpdates(){
+  var el=document.getElementById('customerUpdates');
+  if(!el)return;
+  el.innerHTML=custUpdates.map(function(u){
+    return '<div style="display:flex;align-items:flex-start;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--bdr);">'+
+      '<div style="font-size:1.25rem;flex-shrink:0;margin-top:.1rem;">'+u.icon+'</div>'+
+      '<div style="flex:1;"><div style="font-size:.85rem;line-height:1.5;">'+u.text+'</div>'+
+      '<div style="font-size:.73rem;color:var(--t3);margin-top:.2rem;">'+u.time+'</div></div></div>';
+  }).join('');
+}
+// ═══════════════════════════════════════════════════════════
+//               REASSIGNMENT SIMULATION
+// ═══════════════════════════════════════════════════════════
+function runReassignSim(){
+  var btn=event.target;
+  btn.disabled=true;btn.textContent='🤖 Analyzing...';
+  var after=document.getElementById('raAfter');
+  after.style.opacity='.4';
+  document.getElementById('ra-result-panel').style.display='none';
+  document.getElementById('ra-status-msg').textContent='Analyzing...';
+  document.getElementById('raBefore').style.borderColor='';
+  after.classList.remove('highlight');
+  setTimeout(function(){
+    document.getElementById('ra-status-msg').textContent='Scoring partners...';
+  },600);
+  setTimeout(function(){
+    document.getElementById('ra-status-msg').textContent='Best match found!';
+    after.style.opacity='1';after.classList.add('highlight');
+    document.getElementById('raBefore').style.borderColor='var(--err)';
+    document.getElementById('raBefore').style.opacity='.7';
+    document.getElementById('ra-after-badge').innerHTML='<span class="badge badge-ok">✅ New Partner</span>';
+    document.getElementById('ra-result-panel').style.display='block';
+    btn.disabled=false;btn.textContent='🔄 Run Again';
+    addNotification('ok','✅ Smart Swap completed for ORD-2848 — Rerouted to Amit Sharma. Time saved: 27 min.','Swap Engine');
+  },2200);
+}
+function resetReassign(){
+  document.getElementById('raAfter').style.opacity='.4';
+  document.getElementById('raAfter').classList.remove('highlight');
+  document.getElementById('raBefore').style.borderColor='';
+  document.getElementById('raBefore').style.opacity='1';
+  document.getElementById('ra-status-msg').textContent='Pending';
+  document.getElementById('ra-result-panel').style.display='none';
+  document.getElementById('ra-after-badge').innerHTML='<span class="badge badge-warn">⏳ Standby</span>';
+}
+// ═══════════════════════════════════════════════════════════
+//               DELAY PREDICTION
+// ═══════════════════════════════════════════════════════════
+function runDelayPrediction(){
+  var traffic=document.getElementById('dp-traffic').value;
+  var weather=document.getElementById('dp-weather').value;
+  var vehicle=document.getElementById('dp-vehicle').value;
+  var workload=document.getElementById('dp-workload').value;
+  var distance=parseInt(document.getElementById('dp-distance').value)||8;
+  var peak=document.getElementById('dp-peak').value;
+  var road=document.getElementById('dp-road').value;
+  var score=0;
+  var reasons=[];
+  if(traffic==='none'){score+=0;}
+  else if(traffic==='low'){score+=10;reasons.push('Light traffic (+10%)');}
+  else if(traffic==='medium'){score+=25;reasons.push('Moderate traffic (+25%)');}
+  else if(traffic==='high'){score+=45;reasons.push('Heavy traffic (+45%)');}
+  else if(traffic==='severe'){score+=70;reasons.push('Severe traffic jam (+70%)');}
+  if(weather==='rain'){score+=15;reasons.push('Rainy weather (+15%)');}
+  else if(weather==='heavy-rain'){score+=30;reasons.push('Heavy rain (+30%)');}
+  else if(weather==='storm'){score+=55;reasons.push('Storm conditions (+55%)');}
+  else if(weather==='cloudy'){score+=5;reasons.push('Cloudy weather (+5%)');}
+  if(vehicle==='minor'){score+=20;reasons.push('Vehicle issue (+20%)');}
+  else if(vehicle==='breakdown'){score+=80;reasons.push('Vehicle breakdown (+80%)');}
+  if(workload==='medium'){score+=10;reasons.push('Medium workload (+10%)');}
+  else if(workload==='high'){score+=25;reasons.push('High workload (+25%)');}
+  if(distance>15){score+=15;reasons.push('Long distance (+15%)');}
+  else if(distance>25){score+=30;reasons.push('Very long distance (+30%)');}
+  if(peak==='yes'){score+=20;reasons.push('Peak hour traffic (+20%)');}
+  if(road==='partial'){score+=15;reasons.push('Partial road closure (+15%)');}
+  else if(road==='full'){score+=35;reasons.push('Full road closure (+35%)');}
+  score=Math.min(score,98);
+  var delayMin=Math.round(score*0.45+distance*0.5);
+  var confidence=Math.round(85+Math.random()*12);
+  var severity=score<25?'Low':'score<50'?'Medium':score<75?'High':'Critical';
+  var scolor=score<25?'var(--ok)':score<50?'var(--warn)':score<75?'var(--err)':'#dc2626';
+  var action=score>=65?'🔄 Immediate Reassignment Recommended':score>=35?'⚡ Monitor Closely & Prepare Swap':'✅ Minor Delay — No Action Needed';
+  var el=document.getElementById('dp-results');
+  el.innerHTML='<div class="ai-result" style="margin:0;">'+
+    '<div class="ai-result-header"><span class="ai-badge">🤖 AI ANALYSIS COMPLETE</span></div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">'+
+    '<div style="text-align:center;padding:1.25rem;background:var(--card);border-radius:14px;">'+
+    '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.35rem;">DELAY PROBABILITY</div>'+
+    '<div style="font-size:2.5rem;font-weight:800;color:'+scolor+'">'+score+'%</div>'+
+    '<div style="font-size:.78rem;color:var(--t2);margin-top:.25rem;">'+severity+' Risk</div></div>'+
+    '<div style="text-align:center;padding:1.25rem;background:var(--card);border-radius:14px;">'+
+    '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.35rem;">ESTIMATED DELAY</div>'+
+    '<div style="font-size:2.5rem;font-weight:800;color:'+scolor+'">'+delayMin+'m</div>'+
+    '<div style="font-size:.78rem;color:var(--t2);margin-top:.25rem;">Minutes extra</div></div></div>'+
+    '<div style="margin-bottom:1.25rem;"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.5rem;"><span>Delay Probability</span><strong style="color:'+scolor+'">'+score+'%</strong></div>'+
+    '<div class="progress-bar" style="height:10px;"><div class="progress-fill '+(score<25?'pf-green':score<50?'pf-orange':'pf-red')+'" style="width:'+score+'%"></div></div></div>'+
+    '<div style="margin-bottom:1.25rem;"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.5rem;"><span>AI Confidence</span><strong style="color:var(--pri-l)">'+confidence+'%</strong></div>'+
+    '<div class="progress-bar" style="height:10px;"><div class="progress-fill pf-blue" style="width:'+confidence+'%"></div></div></div>'+
+    '<div style="padding:1rem;background:var(--card);border-radius:12px;margin-bottom:1rem;"><div style="font-size:.72rem;color:var(--t3);margin-bottom:.5rem;">DELAY FACTORS DETECTED</div>'+
+    (reasons.length>0?reasons.map(function(r){return '<div style="font-size:.82rem;color:var(--t2);padding:.3rem 0;">• '+r+'</div>';}).join(''):'<div style="font-size:.82rem;color:var(--ok)">• No significant delay factors detected</div>')+
+    '</div><div style="padding:1rem;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(249,115,22,.08));border:1px solid rgba(37,99,235,.2);border-radius:12px;">'+
+    '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.35rem;">AI SUGGESTED ACTION</div>'+
+    '<div style="font-size:.9rem;font-weight:600;">'+action+'</div></div></div>';
+  if(score>=35)addNotification('warn','⚠️ Delay prediction: '+score+'% probability. '+delayMin+' min estimated delay. Action: '+action,'AI Predictor');
+}
+// ═══════════════════════════════════════════════════════════
+//               SMART SWAP ENGINE
+// ═══════════════════════════════════════════════════════════
+function runSwapEngine(){
+  var candidates=partners.map(function(p){
+    var dist=(Math.random()*8+0.5).toFixed(1);
+    var traffic=['Low','Medium','High'][Math.floor(Math.random()*3)];
+    var tScore=traffic==='Low'?100:traffic==='Medium'?65:35;
+    var dScore=Math.max(0,100-dist*10);
+    var wScore=Math.max(0,100-p.orders*14);
+    var rScore=p.rating*20;
+    var fScore=p.fuel;
+    var vScore=p.vehicle==='Bike'?90:p.vehicle==='Scooter'?80:60;
+    var total=Math.round(dScore*0.25+tScore*0.2+wScore*0.15+rScore*0.15+fScore*0.1+vScore*0.1+(Math.random()*10));
+    total=Math.min(99,Math.max(20,total));
+    return {partner:p,dist:dist,traffic:traffic,score:total,timeSaved:Math.round(total*0.3)};
+  });
+  candidates.sort(function(a,b){return b.score-a.score;});
+  var best=candidates[0];
+  var el=document.getElementById('swapResults');
+  el.innerHTML='<div style="margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">'+
+    '<span class="ai-badge">🏆 RECOMMENDED PARTNER</span>'+
+    '<strong style="font-size:1.05rem;">'+best.partner.name+'</strong>'+
+    '<span class="badge badge-ok">Score: '+best.score+'/100</span>'+
+    '<span style="color:var(--ok);font-size:.85rem;font-weight:600;">⏱️ Saves ~'+best.timeSaved+' min</span>'+
+    '</div>'+
+    '<div style="display:flex;flex-direction:column;gap:.85rem;">'+
+    candidates.map(function(c,i){
+      var isWinner=i===0;
+      return '<div class="swap-candidate'+(isWinner?' winner':'')+'" style="'+(isWinner?'position:relative;':'')+'">'+
+        (isWinner?'<div style="position:absolute;top:.85rem;right:.85rem;"><span class="badge badge-ok">🏆 Best Match</span></div>':'')+ 
+        '<div style="display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;margin-bottom:1rem;">'+
+        '<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--acc));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;">'+c.partner.name.charAt(0)+c.partner.name.split(' ')[1].charAt(0)+'</div>'+
+        '<div><div style="font-weight:700;font-size:.92rem;">'+c.partner.name+'</div><div style="font-size:.78rem;color:var(--t2);">'+c.partner.vehicle+' · '+c.partner.location+' · ⭐ '+c.partner.rating+'</div></div>'+
+        '<div style="text-align:right;"><div style="font-size:1.4rem;font-weight:800;color:'+(isWinner?'var(--ok)':'var(--pri-l)')+'">'+c.score+'</div><div style="font-size:.7rem;color:var(--t3)">AI Score</div></div></div>'+
+        '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;font-size:.77rem;margin-bottom:.75rem;">'+
+        '<div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Dist</div><strong>'+c.dist+' km</strong></div>'+
+        '<div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Traffic</div><strong style="color:'+(c.traffic==='Low'?'var(--ok)':c.traffic==='Medium'?'var(--warn)':'var(--err)')+'">'+c.traffic+'</strong></div>'+
+        '<div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Orders</div><strong>'+c.partner.orders+'</strong></div>'+
+        '<div style="background:var(--card);border-radius:8px;padding:.5rem;text-align:center;"><div style="color:var(--t3)">Fuel</div><strong style="color:'+(c.partner.fuel>60?'var(--ok)':c.partner.fuel>30?'var(--warn)':'var(--err)')+'">'+c.partner.fuel+'%</strong></div></div>'+
+        '<div class="swap-score-bar"><div class="swap-score-fill" style="width:'+c.score+'%"></div></div>'+
+        '</div>';
+    }).join('')+
+    '</div>'+
+    '<div style="margin-top:1.5rem;" class="ai-result">'+
+    '<div class="ai-result-header"><span class="ai-badge">🤖 AI EXPLANATION</span></div>'+
+    '<p style="font-size:.87rem;color:var(--t2);line-height:1.7;">The Smart Swap Engine analyzed <strong style="color:var(--t1)">'+candidates.length+' delivery partners</strong> using a multi-factor scoring algorithm. <strong style="color:var(--t1)">'+best.partner.name+'</strong> achieved the highest AI Swap Score of <strong style="color:var(--ok)">'+best.score+'/100</strong> based on optimal distance ('+best.dist+' km), low traffic on route, manageable workload ('+best.partner.orders+' active orders), excellent performance rating (⭐ '+best.partner.rating+'), and sufficient fuel level ('+best.partner.fuel+'%). Estimated time saving: <strong style="color:var(--ok)">'+best.timeSaved+' minutes</strong>.</p>'+
+    '</div>';
+  addNotification('ok','🧠 Smart Swap Engine recommends '+best.partner.name+' (Score: '+best.score+'/100). Est. time saved: '+best.timeSaved+' min.','Swap Engine');
+}
+// ═══════════════════════════════════════════════════════════
+//               NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════
+function addNotification(type,msg,source){
+  var icons={ok:'✅',warn:'⚠️',err:'❌',info:'ℹ️',pri:'🔔'};
+  var niCls={ok:'ni-ok',warn:'ni-warn',err:'ni-err',info:'ni-info',pri:'ni-pri'};
+  var now=new Date();
+  var timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  notifications.unshift({id:++notifId,type:type,icon:icons[type]||'🔔',msg:msg,source:source||'System',time:timeStr,niCls:niCls[type]||'ni-info'});
+  updateNotifBadge();
+  if(currentSection==='notifications')renderNotifList();
+}
+function updateNotifBadge(){
+  var n=notifications.length;
+  document.getElementById('sbNotifBadge').textContent=n>99?'99+':n;
+  document.getElementById('topNotifBadge').textContent=n>9?'9+':n;
+}
+function renderNotifList(){
+  var el=document.getElementById('notifList');
+  if(!el)return;
+  var filtered=notifFilter==='all'?notifications:notifications.filter(function(n){return n.type===notifFilter;});
+  if(filtered.length===0){
+    el.innerHTML='<div style="text-align:center;padding:4rem;color:var(--t3);"><div style="font-size:3rem;margin-bottom:1rem;">🔔</div><div>No notifications yet</div></div>';
+    return;
+  }
+  el.innerHTML=filtered.map(function(n){
+    return '<div class="notif-item" id="notif-'+n.id+'">'+
+      '<div class="notif-icon '+n.niCls+'">'+n.icon+'</div>'+
+      '<div class="notif-body">'+
+      '<div class="notif-title">'+n.source+'</div>'+
+      '<div class="notif-msg">'+n.msg+'</div>'+
+      '<div class="notif-time">'+n.time+'</div>'+
+      '</div><button class="notif-dismiss" onclick="dismissNotif('+n.id+')" title="Dismiss">✕</button></div>';
+  }).join('');
+}
+function dismissNotif(id){
+  notifications=notifications.filter(function(n){return n.id!==id;});
+  updateNotifBadge();renderNotifList();
+}
+function clearAllNotifs(){notifications=[];updateNotifBadge();renderNotifList();}
+function filterNotif(type){
+  notifFilter=type;
+  document.querySelectorAll('#sec-notifications .btn').forEach(function(b){b.className='btn btn-sm btn-outline';});
+  event.target.className='btn btn-sm btn-primary';
+  renderNotifList();
+}
+var autoNotifPool=[
+  {type:'ok',msg:'✅ New delivery completed by Ravi Kumar — ORD-2891 delivered in 13 minutes.','source':'Delivery Engine'},
+  {type:'warn',msg:'⚠️ Traffic congestion detected on Silk Board flyover. 18 orders flagged.','source':'Traffic Monitor'},
+  {type:'info',msg:'ℹ️ Daily performance report generated. Average delivery time: 18.4 minutes.','source':'Analytics'},
+  {type:'ok',msg:'🔄 AI completed 15 smart swaps in the last 5 minutes. Efficiency: 96%.','source':'Swap Engine'},
+  {type:'err',msg:'🚨 DP006 - Kavya Nair reported a vehicle issue. 3 orders auto-reassigned.','source':'Fleet Monitor'},
+  {type:'info',msg:'📊 Koramangala zone operating at 78% capacity. No action required.','source':'Zone Manager'},
+  {type:'ok',msg:'⭐ Amit Sharma received a 5-star review! Performance score updated to 4.9.','source':'Customer Feedback'},
+  {type:'warn',msg:'🌧️ Light rain forecasted in Whitefield. AI adjusted ETAs for 42 orders.','source':'Weather AI'}
+];
+var autoIdx=0;
+function autoNotif(){
+  var n=autoNotifPool[autoIdx%autoNotifPool.length];autoIdx++;
+  addNotification(n.type,n.msg,n.source);
+}
+// ═══════════════════════════════════════════════════════════
+//               ADMIN PANEL
+// ═══════════════════════════════════════════════════════════
+function switchAdmin(panel,el){
+  document.querySelectorAll('.admin-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});
+  var target=document.getElementById('admin-'+panel);
+  if(target)target.classList.add('active');
+  if(el)el.classList.add('active');
+  if(panel==='partners')renderAdminPartners();
+  if(panel==='orders')renderAdminOrders();
+}
+function renderAdminPartners(){
+  var search=(document.getElementById('adminPartnerSearch')||{}).value||'';
+  var el=document.getElementById('adminPartnerBody');
+  if(!el)return;
+  var filtered=partners.filter(function(p){return p.name.toLowerCase().includes(search.toLowerCase())||p.id.toLowerCase().includes(search.toLowerCase());});
+  el.innerHTML=filtered.map(function(p){
+    return '<tr><td><strong>'+p.id+'</strong></td><td>'+p.name+'</td><td>'+p.vehicle+'</td>'+
+      '<td>⭐ '+p.rating+'</td>'+
+      '<td><span class="badge '+(p.status==='active'?'badge-ok':'badge-warn')+'">'+p.status+'</span></td>'+
+      '<td>₹'+p.earnings.toLocaleString()+'</td>'+
+      '<td style="display:flex;gap:.4rem;"><button class="btn btn-sm btn-outline" onclick="editPartner(\''+p.id+'\')">✏️ Edit</button>'+
+      '<button class="btn btn-sm" style="background:rgba(239,68,68,.15);color:var(--err);border:1px solid rgba(239,68,68,.3);" onclick="deletePartner(\''+p.id+'\')">🗑️</button></td></tr>';
+  }).join('');
+}
+function editPartner(id){alert('Editing partner '+id+' — Form would open in production.');}
+function deletePartner(id){if(confirm('Remove partner '+id+'?')){partners=partners.filter(function(p){return p.id!==id;});renderAdminPartners();addNotification('warn','⚠️ Partner '+id+' removed from system.','Admin');}}
+function addPartnerSim(){alert('Add Partner form would open here in production.\n\nThis demo shows the UI structure for partner management.');}
+function renderAdminOrders(){
+  var search=(document.getElementById('adminOrderSearch')||{}).value||'';
+  var filter=(document.getElementById('adminOrderFilter')||{}).value||'all';
+  var el=document.getElementById('adminOrderBody');
+  if(!el)return;
+  var filtered=ordersData.filter(function(o){
+    var matchSearch=o.id.toLowerCase().includes(search.toLowerCase())||o.customer.toLowerCase().includes(search.toLowerCase())||o.item.toLowerCase().includes(search.toLowerCase());
+    var matchFilter=filter==='all'||o.status===filter;
+    return matchSearch&&matchFilter;
+  });
+  el.innerHTML=filtered.map(function(o){
+    var badgeCls=o.status==='in-transit'?'badge-info':o.status==='delayed'?'badge-err':o.status==='swapped'?'badge-pur':'badge-ok';
+    return '<tr><td><strong>'+o.id+'</strong></td><td>'+o.customer+'</td><td>'+o.item+'</td>'+
+      '<td>'+o.partner+'</td>'+
+      '<td><span class="badge '+badgeCls+'">'+o.status+'</span></td>'+
+      '<td>'+o.eta+'</td><td>₹'+o.value.toLocaleString()+'</td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="alert(\'Order details for '+o.id+'\')">View</button></td></tr>';
+  }).join('');
+}
+// ═══════════════════════════════════════════════════════════
+//               CONTACT FORM
+// ═══════════════════════════════════════════════════════════
+function submitContact(e){
+  e.preventDefault();
+  var name=document.getElementById('ct-name').value.trim();
+  var email=document.getElementById('ct-email').value.trim();
+  var msg=document.getElementById('ct-message').value.trim();
+  if(!name||!email||!msg){alert('Please fill all required fields.');return;}
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('contactSuccess').style.display='block';
+  addNotification('ok','📧 New contact message from '+name+' ('+email+'). Message received!','Contact Form');
+  setTimeout(function(){
+    document.getElementById('contactForm').style.display='block';
+    document.getElementById('contactSuccess').style.display='none';
+    document.getElementById('contactForm').reset();
+  },4000);
+}
+// ═══════════════════════════════════════════════════════════
+//               INITIAL DOM RENDER
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',function(){
+  renderRecentUpdates();
+  // Enter key on login
+  document.getElementById('loginPassword').addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});
+});
+</script>
+</body>
+</html>
