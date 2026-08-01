@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Tech GitHub Repository Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1f77e8;
+            border-bottom: 3px solid #1f77e8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #1f77e8;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .header-info {
+            background: #e8f1ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1f77e8;
+        }
+        
+        .header-info p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+        
+        .header-info strong {
+            color: #1f77e8;
+        }
+        
+        a {
+            color: #1f77e8;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #1f77e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            padding: 10px;
+            background: #f0f8ff;
+            border-left: 4px solid #1f77e8;
+            border-radius: 3px;
+        }
+        
+        .feature-item.disabled {
+            background: #fff0f0;
+            border-left-color: #ff6b6b;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #1f77e8 0%, #1a5bc0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-card .label {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+        
+        hr {
+            margin: 30px 0;
+            border: none;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1f77e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            font-size: 0.9em;
+        }
+        
+        .btn:hover {
+            background: #1a5bc0;
+            text-decoration: none;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            
+            .button-group {
+                display: none;
+            }
+            
+            a {
+                color: #0066cc;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        @media print {
+            .print-only {
+                display: block;
+                text-align: center;
+                margin: 20px 0;
+                color: #666;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Flipkart Tech GitHub Documentation</h1>
+        
+        <div class="header-info">
+            <p><strong>Repository:</strong> flipkart-techgithub.io</p>
+            <p><strong>Owner:</strong> skkarishma739-tech</p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/skkarishma739-tech/flipkart-techgithub.io">https://github.com/skkarishma739-tech/flipkart-techgithub.io</a></p>
+            <p><strong>Live Site:</strong> <a href="https://flipkart-techgithub-io.vercel.app">https://flipkart-techgithub-io.vercel.app</a></p>
+        </div>
+        
+        <div class="section">
+            <h2>📋 Repository Overview</h2>
+            <p>This is a public GitHub Pages repository created 30 days ago. It showcases Flipkart's tech documentation and information through an interactive web interface.</p>
+            
+            <h3>Key Details</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Language: <strong>HTML</strong></li>
+                <li>Default Branch: <strong>main</strong></li>
+                <li>Visibility: <strong>Public</strong></li>
+                <li>Repository Size: <strong>37 KB</strong></li>
+                <li>Last Update: <strong>July 2, 2026</strong></li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📊 Repository Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Total Size</div>
+                    <div class="value">37 KB</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Forks</div>
+                    <div class="value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Stars</div>
+                    <div class="value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Issues</div>
+                    <div class="value">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🎯 Repository Contents</h2>
+            
+            <h3>1. README.md</h3>
+            <p>Contains visual documentation with 15+ screenshots showcasing the website interface and features. Displays different sections of the Flipkart Tech platform including dashboard, technical documentation, feature showcases, UI/UX components, and various views.</p>
+            
+            <h3>2. index.html</h3>
+            <p>Primary HTML file (139,370 bytes) containing the main website code. Deployed on Vercel and provides the interactive web interface for the Flipkart Tech platform.</p>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🔧 Technical Stack</h2>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Technology</th>
+                </tr>
+                <tr>
+                    <td>Frontend</td>
+                    <td>HTML</td>
+                </tr>
+                <tr>
+                    <td>Deployment</td>
+                    <td>Vercel</td>
+                </tr>
+                <tr>
+                    <td>Version Control</td>
+                    <td>Git/GitHub</td>
+                </tr>
+                <tr>
+                    <td>Repository Type</td>
+                    <td>Static Website</td>
+                </tr>
+            </table>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>✨ Repository Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">✅ Issues Tracking</div>
+                <div class="feature-item">✅ Pull Requests</div>
+                <div class="feature-item">✅ Projects Board</div>
+                <div class="feature-item">✅ Wiki</div>
+                <div class="feature-item">✅ Merge Commits</div>
+                <div class="feature-item">✅ Squash Merge</div>
+                <div class="feature-item">✅ Rebase Merge</div>
+                <div class="feature-item">✅ Branch Management</div>
+                <div class="feature-item disabled">❌ GitHub Pages</div>
+                <div class="feature-item disabled">❌ Discussions</div>
+                <div class="feature-item disabled">❌ Downloads</div>
+                <div class="feature-item disabled">❌ Auto-merge</div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🌐 Live Deployment</h2>
+            <p><strong>Website URL:</strong> <a href="https://flipkart-techgithub-io.vercel.app">https://flipkart-techgithub-io.vercel.app</a></p>
+            <p>The repository is deployed on Vercel, providing:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Fast CDN delivery</li>
+                <li>Automatic deployments</li>
+                <li>SSL/TLS security</li>
+                <li>Global availability</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🔐 Access & Permissions</h2>
+            <p><strong>Your Access Level (as skkarishma739-tech):</strong></p>
+            <div class="feature-list">
+                <div class="feature-item">✅ Admin Access</div>
+                <div class="feature-item">✅ Maintain Permissions</div>
+                <div class="feature-item">✅ Full Pull Access</div>
+                <div class="feature-item">✅ Full Push Access</div>
+                <div class="feature-item">✅ Triage Permissions</div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📝 Merge Strategies Configuration</h2>
+            <table>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Status</th>
+                    <th>Default</th>
+                </tr>
+                <tr>
+                    <td>Merge Commits</td>
+                    <td>Enabled</td>
+                    <td>✓</td>
+                </tr>
+                <tr>
+                    <td>Squash Merge</td>
+                    <td>Enabled</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Rebase Merge</td>
+                    <td>Enabled</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Auto-merge</td>
+                    <td>Disabled</td>
+                    <td>-</td>
+                </tr>
+            </table>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🚀 Getting Started</h2>
+            
+            <h3>Clone the Repository</h3>
+            <pre>git clone https://github.com/skkarishma739-tech/flipkart-techgithub.io.git
+cd flipkart-techgithub.io</pre>
+            
+            <h3>View the Website</h3>
+            <p>Visit: <a href="https://flipkart-techgithub-io.vercel.app">https://flipkart-techgithub-io.vercel.app</a></p>
+            
+            <h3>Make Changes</h3>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Edit <code>index.html</code> or other files</li>
+                <li>Commit and push to main branch</li>
+                <li>Vercel automatically deploys</li>
+            </ol>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📞 Important Links</h2>
+            <div class="highlight">
+                <p><strong>Repository:</strong> <a href="https://github.com/skkarishma739-tech/flipkart-techgithub.io">https://github.com/skkarishma739-tech/flipkart-techgithub.io</a></p>
+                <p><strong>Live Website:</strong> <a href="https://flipkart-techgithub-io.vercel.app">https://flipkart-techgithub-io.vercel.app</a></p>
+                <p><strong>Owner Profile:</strong> <a href="https://github.com/skkarishma739-tech">https://github.com/skkarishma739-tech</a></p>
+                <p><strong>Issues:</strong> <a href="https://github.com/skkarishma739-tech/flipkart-techgithub.io/issues">https://github.com/skkarishma739-tech/flipkart-techgithub.io/issues</a></p>
+                <p><strong>Pull Requests:</strong> <a href="https://github.com/skkarishma739-tech/flipkart-techgithub.io/pulls">https://github.com/skkarishma739-tech/flipkart-techgithub.io/pulls</a></p>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📅 Timeline</h2>
+            <ul style="margin-left: 20px;">
+                <li><strong>Created:</strong> 30 days ago (early July 2026)</li>
+                <li><strong>Last Push:</strong> July 2, 2026 at 16:02:58 UTC</li>
+                <li><strong>Status:</strong> Active & Maintained</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="footer">
+            <p>📄 <strong>Document Generated:</strong> August 1, 2026</p>
+            <p>This documentation was automatically generated from the GitHub repository data.</p>
+            <p class="print-only">--- Document Page Break ---</p>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-open print dialog on load (uncomment if desired)
+        // window.print();
+    </script>
+</body>
+</html>
