@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect AI - Premium Single File Platform - CODE DOCUMENTATION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            padding: 40px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+        
+        .toc {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .toc h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .toc ol {
+            margin-left: 20px;
+        }
+        
+        .toc li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-inline {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-size: 0.9em;
+        }
+        
+        .description {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #10b981;
+            color: #555;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            color: #555;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .feature-list li:before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .highlight-box {
+            background: #fffbeb;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            margin: 20px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #555;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        @media print {
+            body {
+                padding: 20px;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎓 EduConnect AI</h1>
+            <p>Premium Single File Platform - Complete Code Documentation</p>
+            <p style="font-size: 0.9em; color: #999; margin-top: 10px;">Generated: August 1, 2026</p>
+        </div>
+        
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc">
+            <h2>📋 Table of Contents</h2>
+            <ol>
+                <li>Project Overview</li>
+                <li>Architecture & Structure</li>
+                <li>Color Tokens & Design System</li>
+                <li>Global Styles & Animations</li>
+                <li>Component Breakdown</li>
+                <li>JavaScript Functionality</li>
+                <li>Features & Capabilities</li>
+                <li>Modal Systems</li>
+                <li>Chat & AI Logic</li>
+                <li>Payment & Sponsor System</li>
+                <li>Usage Instructions</li>
+            </ol>
+        </div>
+        
+        <!-- SECTION 1: OVERVIEW -->
+        <div class="section">
+            <h2>1️⃣ Project Overview</h2>
+            <div class="description">
+                <strong>EduConnect AI</strong> is a premium, single-file educational platform built with pure HTML, CSS, and JavaScript. It provides an integrated system for student-faculty interaction, AI-powered guidance, mentorship programs, and sponsor rewards.
+            </div>
+            
+            <h3>Key Statistics</h3>
+            <table>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>File Type</td>
+                    <td>Single HTML File (.html)</td>
+                </tr>
+                <tr>
+                    <td>Dependencies</td>
+                    <td>None (Fully Self-Contained)</td>
+                </tr>
+                <tr>
+                    <td>Framework</td>
+                    <td>Vanilla HTML5, CSS3, JavaScript</td>
+                </tr>
+                <tr>
+                    <td>Features</td>
+                    <td>Authentication, Chat, AI Support, Payments, Sponsors</td>
+                </tr>
+                <tr>
+                    <td>Responsive</td>
+                    <td>Yes, Mobile & Desktop Optimized</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 2: ARCHITECTURE -->
+        <div class="section">
+            <h2>2️⃣ Architecture & Structure</h2>
+            
+            <h3>Application Views (4 Main Pages)</h3>
+            <table>
+                <tr>
+                    <th>View ID</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>view-login</td>
+                    <td>User Authentication</td>
+                    <td>Entry Point</td>
+                </tr>
+                <tr>
+                    <td>view-dashboard</td>
+                    <td>Academic Progress & Features</td>
+                    <td>Main Hub</td>
+                </tr>
+                <tr>
+                    <td>view-chat</td>
+                    <td>Faculty & AI Chat Interface</td>
+                    <td>Core Feature</td>
+                </tr>
+                <tr>
+                    <td>view-logout</td>
+                    <td>Session Termination</td>
+                    <td>Exit Screen</td>
+                </tr>
+            </table>
+            
+            <h3>Navigation Flow</h3>
+            <div class="code-block">
+                Login → Dashboard → Chat/Sponsor
+                  ↓
+                Payment System → Prize Redemption → Sponsor Mode
+                  ↓
+                Logout → Thank You Screen
+            </div>
+            
+            <h3>Data Persistence</h3>
+            <div class="description">
+                The application uses <span class="code-inline">localStorage</span> for persisting user state and chat history across sessions. All data is stored client-side for privacy and instant access.
+            </div>
+        </div>
+        
+        <!-- SECTION 3: DESIGN SYSTEM -->
+        <div class="section">
+            <h2>3️⃣ Color Tokens & Design System</h2>
+            
+            <h3>CSS Variables (Color Palette)</h3>
+            <div class="code-block">
+--bg-dark: #0f111a           /* Main background */
+--bg-darker: #07080d         /* Darker background variant */
+--primary: #6366f1           /* Primary brand color (Indigo) */
+--primary-glow: rgba(99, 102, 241, 0.5)
+--secondary: #8b5cf6         /* Secondary color (Purple) */
+--text-light: #f8fafc        /* Light text */
+--text-muted: #94a3b8        /* Muted text */
+--glass-bg: rgba(255, 255, 255, 0.03)
+--glass-border: rgba(255, 255, 255, 0.08)
+--success: #10b981           /* Success state (Green) */
+--danger: #ef4444            /* Error state (Red) */
+--warning: #f59e0b           /* Warning state (Amber) */
+--ai-accent: #00d2ff         /* AI indicator (Cyan) */
+--gold: #fbbf24              /* Premium/VIP color (Amber) */
+            </div>
+            
+            <h3>Typography</h3>
+            <div class="description">
+                <strong>Font Family:</strong> 'Outfit' (Google Fonts) - Modern, Clean, Professional<br>
+                <strong>Font Weights:</strong> 300, 400, 500, 600, 700<br>
+                <strong>Primary Size:</strong> 16px (1rem base)
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 4: GLOBAL STYLES -->
+        <div class="section">
+            <h2>4️⃣ Global Styles & Animations</h2>
+            
+            <h3>Key CSS Classes</h3>
+            <table>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>.glass-panel</td>
+                    <td>Glassmorphism card with backdrop blur</td>
+                </tr>
+                <tr>
+                    <td>.btn / .primary-btn</td>
+                    <td>Interactive buttons with gradients</td>
+                </tr>
+                <tr>
+                    <td>.modal</td>
+                    <td>Modal dialogs for payments & prizes</td>
+                </tr>
+                <tr>
+                    <td>.view</td>
+                    <td>Page view container (shows/hides)</td>
+                </tr>
+                <tr>
+                    <td>.chat-layout</td>
+                    <td>Two-column chat interface</td>
+                </tr>
+            </table>
+            
+            <h3>Core Animations</h3>
+            <div class="code-block">
+@keyframes pulse        /* Background pulsing effect */
+@keyframes slideUp      /* Bottom-to-top entrance */
+@keyframes fadeIn       /* Opacity transition */
+@keyframes popIn        /* Scale + opacity pop effect */
+            </div>
+        </div>
+        
+        <!-- SECTION 5: COMPONENTS -->
+        <div class="section">
+            <h2>5️⃣ Component Breakdown</h2>
+            
+            <h3>Navbar Component</h3>
+            <div class="description">
+                Horizontal navigation bar with logo, links, and logout button. Dynamically shows/hides based on view. Highlights active tab.
+            </div>
+            <div class="code-block">
+&lt;nav class="navbar glass-panel"&gt;
+    &lt;div class="nav-brand"&gt;EduConnect &lt;span class="highlight"&gt;AI&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="nav-links"&gt;
+        &lt;span class="active" onclick="navigateTo('dashboard')"&gt;Dashboard&lt;/span&gt;
+        &lt;span onclick="navigateTo('chat')"&gt;Chat & Guidance&lt;/span&gt;
+        &lt;span class="sponsor-tab"&gt;⭐ VIP Sponsor&lt;/span&gt;
+        &lt;span class="btn secondary-btn" onclick="navigateTo('logout')"&gt;Logout&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+            </div>
+            
+            <h3>Login Form</h3>
+            <div class="description">
+                Email/ID and password inputs with pre-filled demo credentials. Minimal, centered layout with glass-panel styling.
+            </div>
+            
+            <h3>Dashboard Cards</h3>
+            <ul class="feature-list">
+                <li>Academic Progress Card - Shows attendance & grades</li>
+                <li>Personalized Recommendations - Curated learning suggestions</li>
+                <li>Mentorship & Consultancy - Free/Premium options</li>
+                <li>Scholarships & Challenges - Prize money opportunities</li>
+            </ul>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 6: JAVASCRIPT -->
+        <div class="section">
+            <h2>6️⃣ JavaScript Functionality</h2>
+            
+            <h3>Core Functions</h3>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>navigateTo(viewId)</td>
+                    <td>Switch between app views/pages</td>
+                </tr>
+                <tr>
+                    <td>openModal(id) / closeModal(id)</td>
+                    <td>Show/hide modal dialogs</td>
+                </tr>
+                <tr>
+                    <td>processPayment()</td>
+                    <td>Handle payment logic</td>
+                </tr>
+                <tr>
+                    <td>activateSponsorMode()</td>
+                    <td>Unlock premium features</td>
+                </tr>
+                <tr>
+                    <td>selectContact(name, isOnline)</td>
+                    <td>Switch chat contact</td>
+                </tr>
+                <tr>
+                    <td>sendMessage()</td>
+                    <td>Send chat message</td>
+                </tr>
+                <tr>
+                    <td>generateAIResponse(text)</td>
+                    <td>AI auto-response logic</td>
+                </tr>
+            </table>
+            
+            <h3>State Management</h3>
+            <div class="code-block">
+let isSponsor = false;
+let isCurrentContactOnline = true;
+let currentContactName = 'Prof. Smith';
+let currentContactAvatar = 'https://api.dicebear.com/...';
+            </div>
+        </div>
+        
+        <!-- SECTION 7: FEATURES -->
+        <div class="section">
+            <h2>7️⃣ Features & Capabilities</h2>
+            
+            <h3>Authentication System</h3>
+            <ul class="feature-list">
+                <li>Email/ID-based login</li>
+                <li>Password authentication (demo: no backend validation)</li>
+                <li>Session management</li>
+                <li>Logout functionality</li>
+            </ul>
+            
+            <h3>Dashboard Features</h3>
+            <ul class="feature-list">
+                <li>Real-time progress statistics (Attendance, Grades)</li>
+                <li>Personalized learning recommendations</li>
+                <li>Scholarship & challenge promotions</li>
+                <li>Quick-access mentorship options</li>
+            </ul>
+            
+            <h3>Chat & Communication</h3>
+            <ul class="feature-list">
+                <li>Live chat with faculty members</li>
+                <li>AI auto-responder when faculty offline</li>
+                <li>Subject-based quick filters</li>
+                <li>Image upload & analysis capability</li>
+                <li>Message history display</li>
+                <li>Real-time message indicators</li>
+            </ul>
+            
+            <h3>Premium Features</h3>
+            <ul class="feature-list">
+                <li>VIP Sponsor status with badge</li>
+                <li>₹10,000 bonus learning credits</li>
+                <li>Exclusive AI swag kit</li>
+                <li>Priority mentorship access</li>
+                <li>VIP subject support channel</li>
+            </ul>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 8: MODALS -->
+        <div class="section">
+            <h2>8️⃣ Modal Systems</h2>
+            
+            <h3>Payment Modal</h3>
+            <div class="description">
+                Displays premium mentorship pricing with QR code for payment. Shows amount in USD and INR. Triggers payment processing on confirmation.
+            </div>
+            
+            <h3>Prize Modal</h3>
+            <div class="description">
+                Success screen after payment. Shows trophy image, lists benefits (credits, swag, VIP access), and transitions to sponsor mode. Highly celebratory UI.
+            </div>
+            
+            <h3>Modal HTML Structure</h3>
+            <div class="code-block">
+&lt;div id="[modalId]" class="modal"&gt;
+    &lt;div class="modal-content glass-panel"&gt;
+        &lt;span class="close-btn" onclick="closeModal('[modalId]')"&gt;×&lt;/span&gt;
+        &lt;!-- Modal content --&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+        
+        <!-- SECTION 9: CHAT SYSTEM -->
+        <div class="section">
+            <h2>9️⃣ Chat & AI Logic</h2>
+            
+            <h3>Chat Architecture</h3>
+            <ul class="feature-list">
+                <li>Sidebar: Faculty contact list</li>
+                <li>Main: Chat interface with messages</li>
+                <li>Header: Active contact info & AI badge</li>
+                <li>Input: Message box with file upload</li>
+            </ul>
+            
+            <h3>Message Flow</h3>
+            <div class="code-block">
+User Input → Message Sent → Append to Chat
+    ↓
+Faculty Online? YES → Direct Response
+    ↓
+Faculty Offline → Trigger AI Response
+            </div>
+            
+            <h3>AI Response Logic</h3>
+            <div class="description">
+                When faculty is offline, the AI Assistant analyzes user messages for keywords (error, help, scholarship) and provides contextual responses. Can also analyze uploaded images using "AI Vision."
+            </div>
+            
+            <h3>Key Functions</h3>
+            <div class="code-block">
+appendMessage(type, content, avatar, name)
+selectContact(name, isOnline, avatar)
+sendMessage()
+generateAIResponse(userText)
+sendImageMessage(imgUrl, fileName)
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 10: PAYMENT & SPONSOR -->
+        <div class="section">
+            <h2>🔟 Payment & Sponsor System</h2>
+            
+            <h3>Payment Flow</h3>
+            <div class="code-block">
+1. User clicks "Premium Sponsor" button
+2. Payment modal opens with QR code
+3. User "scans" (or confirms payment)
+4. processPayment() is called
+5. Prize modal shows success
+6. activateSponsorMode() unlocks features
+7. UI updates with gold theme
+            </div>
+            
+            <h3>Sponsor Mode Activation</h3>
+            <div class="description">
+                Once activated via <span class="code-inline">activateSponsorMode()</span>:
+            </div>
+            <ul class="feature-list">
+                <li>User name shows "VIP Sponsor" badge</li>
+                <li>VIP Sponsor tab appears in navbar</li>
+                <li>Premium content unlocks in dashboard</li>
+                <li>VIP subject button appears in chat</li>
+                <li>Priority mentorship available</li>
+            </ul>
+            
+            <h3>Integration Points</h3>
+            <div class="code-block">
+isSponsor = true  // Global flag
+updateUI()        // Refresh all elements
+activateSponsorMode() {
+    isSponsor = true;
+    document.getElementById('userNameDisplay').innerText = 
+        'Student (VIP Sponsor) ⭐';
+    document.getElementById('nav-sponsor').classList.add('unlocked');
+    document.getElementById('sponsorUnlockedMsg').classList.add('active');
+}
+            </div>
+        </div>
+        
+        <!-- SECTION 11: USAGE -->
+        <div class="section">
+            <h2>1️⃣1️⃣ Usage Instructions</h2>
+            
+            <h3>Quick Start</h3>
+            <table>
+                <tr>
+                    <th>Step</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Open the HTML file in a web browser</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Pre-filled credentials appear (Click Login)</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Explore Dashboard, Chat, or go Premium</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Send messages, upload images, interact</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Click "Premium Sponsor" for payment flow</td>
+                </tr>
+            </table>
+            
+            <h3>Browser Compatibility</h3>
+            <ul class="feature-list">
+                <li>Chrome 90+</li>
+                <li>Firefox 88+</li>
+                <li>Safari 14+</li>
+                <li>Edge 90+</li>
+                <li>Mobile browsers (iOS Safari, Android Chrome)</li>
+            </ul>
+            
+            <h3>Key Interactions</h3>
+            <div class="highlight-box">
+                <h4>🎯 Important Interactions</h4>
+                <p><strong>Send Message:</strong> Type in input → Press Enter or click Send</p>
+                <p><strong>Upload Image:</strong> Click 📎 or 🖼️ icon</p>
+                <p><strong>Switch Contact:</strong> Click faculty name in sidebar</p>
+                <p><strong>Unlock Premium:</strong> Click "Premium Sponsor" → Confirm Payment</p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>📄 EduConnect AI - Complete Code Documentation</p>
+            <p>Generated: August 1, 2026 | Repository: myproject-tech.github.io</p>
+            <p style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
+                This documentation provides a comprehensive overview of the EduConnect AI platform structure, features, and implementation details.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
